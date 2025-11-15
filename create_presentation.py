@@ -90,13 +90,38 @@ def create_title_slide(story, styles):
     story.append(PageBreak())
 
 def create_section_slide(story, styles, title):
-    """Section divider slide"""
-    story.append(Spacer(1, 2*inch))
-    section = Paragraph(
-        f'<font color="#FFFFFF" size="42"><b>{title}</b></font>',
-        styles['SectionTitle']
+    """Section divider slide with full blue background"""
+    story.append(Spacer(1, 1.8*inch))
+
+    # Create a table for the blue background section
+    section_text = Paragraph(
+        f'<font color="#FFFFFF" size="38"><b>{title}</b></font>',
+        ParagraphStyle(
+            'SectionContent',
+            parent=styles['Normal'],
+            fontSize=38,
+            textColor=WHITE,
+            alignment=TA_CENTER,
+            leading=48,
+            spaceAfter=30,
+            spaceBefore=30
+        )
     )
-    story.append(section)
+
+    # Table with blue background
+    data = [[section_text]]
+    table = Table(data, colWidths=[9.5*inch])
+    table.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, -1), PRIMARY_BLUE),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('TOPPADDING', (0, 0), (-1, -1), 40),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 40),
+        ('LEFTPADDING', (0, 0), (-1, -1), 20),
+        ('RIGHTPADDING', (0, 0), (-1, -1), 20),
+    ]))
+
+    story.append(table)
     story.append(PageBreak())
 
 def create_content_slide(story, styles, title, content_items):
@@ -182,17 +207,6 @@ def create_presentation():
 
     # Styles
     styles = getSampleStyleSheet()
-
-    # Custom styles
-    styles.add(ParagraphStyle(
-        name='SectionTitle',
-        parent=styles['Title'],
-        fontSize=42,
-        textColor=WHITE,
-        alignment=TA_CENTER,
-        spaceAfter=30,
-        backColor=PRIMARY_BLUE
-    ))
 
     story = []
 
