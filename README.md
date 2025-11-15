@@ -30,6 +30,10 @@ A comprehensive guide to working effectively with Claude Code (claude.ai/code) f
 ### Examples
 - [CLAUDE.md Template](./examples/claude-md-template.md) - Production-ready project configuration
 
+### Workshop Materials
+- [Interactive Tutorial Slides](./claude-code-interactive-tutorial.pdf) - 40+ slide hands-on workshop
+- [Workshop Prompts](./prompts.md) - Copy-paste prompts for exercises (with page references)
+
 ## 🎯 Quick Links
 
 ### For Beginners
