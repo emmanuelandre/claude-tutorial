@@ -581,4 +581,4 @@ Then update planning/devprogress.md to check off completed tasks."
 
 ---
 
-**Prev:** [Feature Workflow](./08-feature-workflow.md) | **Next:** [Advanced Topics](./10-advanced-topics.md)
+**Prev:** [Feature Workflow](./08-feature-workflow.md) | **Next:** [Scaling to Large Projects](./10-scaling-large-projects.md)

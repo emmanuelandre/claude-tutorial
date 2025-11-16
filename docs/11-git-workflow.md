@@ -331,4 +331,4 @@ git config --global alias.lg "log --graph --oneline --all"
 
 ---
 
-**Next:** [Documentation Strategies](./12-documentation.md)
+**Prev:** [Scaling to Large Projects](./10-scaling-large-projects.md) | **Next:** [Documentation Strategies](./12-documentation.md)

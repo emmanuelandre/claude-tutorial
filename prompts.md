@@ -328,3 +328,153 @@ Complete profile feature with passing tests and PR ready for review
 
 ---
 
+## Page 44: EXERCISE: Multi-Phase Task Manager (Phase 0)
+
+**PROMPT:**
+```
+Goal: Build a Task Management System across multiple phases
+
+Phase 0: Foundation (We'll do this)
+- User auth (Google OAuth + JWT)
+- Organizations and teams
+- Basic permissions
+
+Phase 1: Projects (Demo only - out of scope)
+- Project CRUD
+- Project members
+- Roles and permissions
+
+Phase 2-3: Not implemented (Show planning only)
+
+Step 1: Create Planning Structure
+mkdir task-manager && cd task-manager
+git init
+mkdir -p project/{planning,specs,sessions,development}
+
+Step 2: Ask Claude to create devplan.md
+"Create project/planning/devplan.md for a Task Management System.
+
+Break into 4 phases:
+- Phase 0: Foundation (Auth, Users, Orgs)
+- Phase 1: Projects (CRUD, Members)
+- Phase 2: Tasks (CRUD, Comments, Attachments)
+- Phase 3: Dashboard (Analytics)
+
+For each phase list: DB tables, repos, API endpoints, UI pages, tests.
+Use vertical slice workflow. Include checkboxes."
+
+Expected: Complete devplan.md with ~80-100 tasks
+```
+
+**EXPECTED RESULT:**
+devplan.md created with 4 phases and dependency mapping
+
+---
+
+## Page 45: EXERCISE: Create Progress Tracker
+
+**PROMPT:**
+```
+Step 3: Create devprogress.md
+
+"Create project/planning/devprogress.md based on devplan.md.
+
+Add:
+- Quick Stats table (4 phases with status indicators)
+- Current Sprint section (Phase 0 - Foundation)
+- Sprint Goals (5-7 goals for Phase 0)
+- All Phase 0 tasks with checkboxes
+- Set Phase 0 to '🟡 In Progress' with 0% initially
+- Mark other phases as '🔴 Not Started'"
+
+Expected: devprogress.md showing Phase 0 ready to start
+
+Step 4: Create database.md
+
+"Create project/planning/database.md with complete schema.
+
+Tables: organizations, users, user_groups, permissions,
+projects, project_members, tasks, comments, attachments
+
+For each: columns, types, PKs, FKs, indexes, constraints"
+
+Expected: Full database schema for all phases
+```
+
+**EXPECTED RESULT:**
+devprogress.md and database.md created
+
+---
+
+## Page 46: EXERCISE: Implement Phase 0 Database
+
+**PROMPT:**
+```
+Step 5: Database Migrations
+
+"I'm in api/ directory. Initialize Go project and create migrations.
+
+- Create go.mod for 'task-manager-api'
+- Create: cmd/api, internal/{handlers,middleware,models,repository}, migrations/
+- Create migrations for Phase 0 tables:
+  001_create_organizations.up.sql
+  002_create_users.up.sql
+  003_create_user_groups.up.sql
+  004_create_permissions.up.sql
+
+Include seed data:
+- Default organization
+- Admin user group
+- Permissions: users:*, projects:*, tasks:*"
+
+Expected: Go project initialized, 4 migrations created
+
+Step 6: Update Progress
+
+"Update project/planning/devprogress.md:
+- Mark database setup tasks as [x]
+- Update Phase 0 percentage
+- Update 'Completed This Session'"
+
+Expected: Progress tracker shows ~20-30% Phase 0 complete
+```
+
+**EXPECTED RESULT:**
+Migrations created and progress updated
+
+---
+
+## Page 47: EXERCISE: Implement Auth System
+
+**PROMPT:**
+```
+Step 7: Google OAuth + JWT
+
+"Implement Google OAuth + JWT authentication:
+
+1. models/user.go - User struct
+2. repository/user_repository.go - GetByID, GetByEmail, Create, Update
+3. handlers/auth_handler.go - GoogleLogin, GoogleCallback, GetMe
+4. middleware/auth.go - JWT validation
+5. cmd/api/main.go - Routes
+
+Dependencies: gorilla/mux, golang-jwt/jwt/v5, lib/pq, oauth2/google
+Use repository pattern - handlers never touch DB directly."
+
+Expected: Auth system with OAuth and JWT
+
+Step 8: Update Progress Again
+
+"Update devprogress.md:
+- Mark auth, repository, API tasks as [x]
+- Update Phase 0 percentage
+- Add to 'Completed This Session'"
+
+Expected: Progress shows ~60-70% Phase 0 complete
+```
+
+**EXPECTED RESULT:**
+Auth implemented and progress updated
+
+---
+

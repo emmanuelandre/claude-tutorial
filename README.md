@@ -18,6 +18,7 @@ A comprehensive guide to working effectively with Claude Code (claude.ai/code) f
 - [AI-First Workflow](./docs/07-ai-first-workflow.md) - The 10-step systematic development process
 - [Feature Development Workflow](./docs/08-feature-workflow.md) - End-to-end feature development
 - [Project Planning & Documentation Structure](./docs/09-project-planning-structure.md) - Organizing project documentation for AI-first development
+- [Scaling to Large Projects](./docs/10-scaling-large-projects.md) - Multi-phase planning, progress tracking, and project management for complex systems
 
 ### Best Practices
 - [Git Workflow](./docs/11-git-workflow.md) - Branch naming, commits, and PR management

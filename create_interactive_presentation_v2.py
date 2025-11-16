@@ -890,6 +890,262 @@ Time limit: 30 minutes""",
     page_num += 1
 
     # =================
+    # SCALING TO LARGE PROJECTS
+    # =================
+    create_section_slide(story, styles, "Scaling to Large Projects")
+    page_num += 1
+
+    create_content_slide(story, styles, "The Challenge of Large Projects", [
+        ("When projects grow:", [
+            "100+ tasks across multiple modules",
+            "Complex dependencies between features",
+            "Weeks or months of development",
+            "Context loss between sessions",
+            "Need systematic progress tracking"
+        ]),
+        ("The Solution:", [
+            "Phased development with living documentation",
+            "Centralized project planning structure",
+            "Continuous progress monitoring"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Project Planning Structure", [
+        ("Directory Layout:", [
+            "project/planning/ - Master plan and progress",
+            "project/specs/ - Detailed feature specifications",
+            "project/sessions/ - Session summaries",
+            "project/development/ - Quick reference guides"
+        ]),
+        ("Key Files:", [
+            "devplan.md - Master plan with all phases",
+            "devprogress.md - Living progress tracker",
+            "database.md - Complete schema documentation",
+            "Session notes - What happened each session"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "The Master Plan (devplan.md)", [
+        ("Contains:", [
+            "10 phases with clear objectives",
+            "Dependency mapping (what depends on what)",
+            "Vertical slice workflow per feature",
+            "All tasks with checkboxes",
+            "Estimated timelines"
+        ]),
+        ("Workflow per Feature:", [
+            "DB → Backend API → API Tests → UI → UI Tests → Docs",
+            "Complete each layer before moving forward",
+            "Never skip the testing phases"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Progress Tracker (devprogress.md)", [
+        ("Update After Every Session:", [
+            "Mark completed tasks with [x]",
+            "Update phase percentages",
+            "Track current sprint goals",
+            "Document blockers and decisions",
+            "Calculate overall progress"
+        ]),
+        ("Quick Stats Table:", [
+            "Phase | Status | Progress | Backend | UI | Tests",
+            "🔴 Not Started | 🟡 In Progress | 🟢 Complete",
+            "Visual overview of project health"
+        ])
+    ])
+    page_num += 1
+
+    # Interactive Exercise: Multi-Phase Project
+    create_hands_on_slide(story, styles,
+        "EXERCISE: Multi-Phase Task Manager (Phase 0)",
+        """Goal: Build a Task Management System across multiple phases
+
+Phase 0: Foundation (We'll do this)
+- User auth (Google OAuth + JWT)
+- Organizations and teams
+- Basic permissions
+
+Phase 1: Projects (Demo only - out of scope)
+- Project CRUD
+- Project members
+- Roles and permissions
+
+Phase 2-3: Not implemented (Show planning only)
+
+Step 1: Create Planning Structure
+mkdir task-manager && cd task-manager
+git init
+mkdir -p project/{planning,specs,sessions,development}
+
+Step 2: Ask Claude to create devplan.md
+"Create project/planning/devplan.md for a Task Management System.
+
+Break into 4 phases:
+- Phase 0: Foundation (Auth, Users, Orgs)
+- Phase 1: Projects (CRUD, Members)
+- Phase 2: Tasks (CRUD, Comments, Attachments)
+- Phase 3: Dashboard (Analytics)
+
+For each phase list: DB tables, repos, API endpoints, UI pages, tests.
+Use vertical slice workflow. Include checkboxes."
+
+Expected: Complete devplan.md with ~80-100 tasks""",
+        "devplan.md created with 4 phases and dependency mapping",
+        page_num)
+    page_num += 1
+
+    create_hands_on_slide(story, styles,
+        "EXERCISE: Create Progress Tracker",
+        """Step 3: Create devprogress.md
+
+"Create project/planning/devprogress.md based on devplan.md.
+
+Add:
+- Quick Stats table (4 phases with status indicators)
+- Current Sprint section (Phase 0 - Foundation)
+- Sprint Goals (5-7 goals for Phase 0)
+- All Phase 0 tasks with checkboxes
+- Set Phase 0 to '🟡 In Progress' with 0% initially
+- Mark other phases as '🔴 Not Started'"
+
+Expected: devprogress.md showing Phase 0 ready to start
+
+Step 4: Create database.md
+
+"Create project/planning/database.md with complete schema.
+
+Tables: organizations, users, user_groups, permissions,
+projects, project_members, tasks, comments, attachments
+
+For each: columns, types, PKs, FKs, indexes, constraints"
+
+Expected: Full database schema for all phases""",
+        "devprogress.md and database.md created",
+        page_num)
+    page_num += 1
+
+    create_hands_on_slide(story, styles,
+        "EXERCISE: Implement Phase 0 Database",
+        """Step 5: Database Migrations
+
+"I'm in api/ directory. Initialize Go project and create migrations.
+
+- Create go.mod for 'task-manager-api'
+- Create: cmd/api, internal/{handlers,middleware,models,repository}, migrations/
+- Create migrations for Phase 0 tables:
+  001_create_organizations.up.sql
+  002_create_users.up.sql
+  003_create_user_groups.up.sql
+  004_create_permissions.up.sql
+
+Include seed data:
+- Default organization
+- Admin user group
+- Permissions: users:*, projects:*, tasks:*"
+
+Expected: Go project initialized, 4 migrations created
+
+Step 6: Update Progress
+
+"Update project/planning/devprogress.md:
+- Mark database setup tasks as [x]
+- Update Phase 0 percentage
+- Update 'Completed This Session'"
+
+Expected: Progress tracker shows ~20-30% Phase 0 complete""",
+        "Migrations created and progress updated",
+        page_num)
+    page_num += 1
+
+    create_hands_on_slide(story, styles,
+        "EXERCISE: Implement Auth System",
+        """Step 7: Google OAuth + JWT
+
+"Implement Google OAuth + JWT authentication:
+
+1. models/user.go - User struct
+2. repository/user_repository.go - GetByID, GetByEmail, Create, Update
+3. handlers/auth_handler.go - GoogleLogin, GoogleCallback, GetMe
+4. middleware/auth.go - JWT validation
+5. cmd/api/main.go - Routes
+
+Dependencies: gorilla/mux, golang-jwt/jwt/v5, lib/pq, oauth2/google
+Use repository pattern - handlers never touch DB directly."
+
+Expected: Auth system with OAuth and JWT
+
+Step 8: Update Progress Again
+
+"Update devprogress.md:
+- Mark auth, repository, API tasks as [x]
+- Update Phase 0 percentage
+- Add to 'Completed This Session'"
+
+Expected: Progress shows ~60-70% Phase 0 complete""",
+        "Auth implemented and progress updated",
+        page_num)
+    page_num += 1
+
+    create_content_slide(story, styles, "Phase 1+ (Out of Workshop Scope)", [
+        ("Instructor Demo:", [
+            "How to transition from Phase 0 to Phase 1",
+            "Mark Phase 0 as 🟢 Complete (100%)",
+            "Start Phase 1 as 🟡 In Progress",
+            "Create migrations for projects tables",
+            "Create session note documenting Phase 0"
+        ]),
+        ("Phases 2-3 in devplan:", [
+            "Shows how project continues beyond workshop",
+            "Demonstrates long-term planning",
+            "Each phase builds on previous",
+            "Progress tracking keeps you on track"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Best Practices for Large Projects", [
+        ("Update Progress Religiously:", [
+            "After every session - mark completed tasks",
+            "Calculate percentages accurately",
+            "Document blockers immediately",
+            "Create session notes with decisions"
+        ]),
+        ("Keep Plans vs Reality Aligned:", [
+            "devplan.md = original blueprint (stable)",
+            "devprogress.md = current reality (dynamic)",
+            "Adjust plan when reality diverges significantly"
+        ]),
+        ("Use Phase-Based Branches:", [
+            "phase-0-foundation, phase-1-projects, etc.",
+            "Complete entire phase before merging",
+            "Easier to track and review large changes"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "When to Use This Approach", [
+        ("Small Projects (<20 tasks):", [
+            "❌ Don't need planning structure",
+            "✅ Simple CLAUDE.md is enough"
+        ]),
+        ("Medium Projects (20-50 tasks):", [
+            "✅ Create devplan.md and devprogress.md",
+            "✅ Update progress after sessions"
+        ]),
+        ("Large Projects (50+ tasks):", [
+            "✅ Full planning structure",
+            "✅ Daily progress updates",
+            "✅ Session notes after every session",
+            "✅ Detailed specs for complex features"
+        ])
+    ])
+    page_num += 1
+
+    # =================
     # SUMMARY
     # =================
     create_section_slide(story, styles, "Summary & Action Plan")
@@ -902,6 +1158,8 @@ Time limit: 30 minutes""",
         "✓ Proper git workflow and conventional commits",
         "✓ Effective prompt engineering techniques",
         "✓ CLAUDE.md as project instruction manual",
+        "✓ Scaling to large projects with phased planning",
+        "✓ Progress tracking with devplan.md and devprogress.md",
         "✓ Quality gates at every step"
     ])
     page_num += 1
