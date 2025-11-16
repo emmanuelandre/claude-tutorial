@@ -4,9 +4,9 @@ Modern testing philosophy for AI-first development.
 
 ## Core Philosophy
 
-**E2E Tests > Component Tests > Unit Tests (Optional)**
+**Comprehensive Testing: E2E + Unit Tests (Both Mandatory) + Component Tests (Good to Have)**
 
-### The Pyramid is Inverted
+### Modern Testing Approach
 
 Traditional testing pyramid (bottom-heavy):
 ```
@@ -19,15 +19,18 @@ Traditional testing pyramid (bottom-heavy):
 /__Unit Tests__\
 ```
 
-AI-first testing (top-heavy):
+Modern comprehensive testing (balanced with emphasis on E2E):
 ```
   ____________
- /            \ ← E2E (comprehensive)
+ /            \ ← E2E (comprehensive & mandatory)
 /__E2E Tests__\
-  /          \ ← Component (targeted)
+  ____________
+ /            \ ← Unit Tests (mandatory)
+/__Unit Tests_\
+  /          \ ← Component (good to have)
  /────────────\
-  /        \ ← Unit (optional)
- /__Optional_\
+  /  Test   \ ← Test Containers for microservices
+ /_Containers_\
 ```
 
 ### Why This Works
@@ -39,57 +42,73 @@ AI-first testing (top-heavy):
 - ✅ Document expected behavior
 - ✅ Enable confident refactoring
 
-**Component Tests:**
-- ✅ Test complex UI logic
-- ✅ Faster than E2E
-- ✅ Target specific behaviors
-- ⚠️ Not always necessary
-
 **Unit Tests:**
-- ⚠️ Often test implementation details
-- ⚠️ Break on refactoring
-- ⚠️ False sense of security
-- ✅ Useful for critical algorithms
-- ✅ Optional for most code
+- ✅ Test business logic in isolation
+- ✅ Fast feedback during development
+- ✅ Catch edge cases and boundary conditions
+- ✅ Enable confident refactoring of internal logic
+- ✅ Mandatory for quality assurance
 
-## The Scientific Approach
+**Component Tests:**
+- ✅ Test integration between components
+- ✅ Use test containers (Testcontainers) for microservices
+- ✅ Verify database, message queues, external services
+- ✅ Good to have where applicable (not all code is microservices)
+- ⚠️ Not always necessary for simple applications
 
-**Unit Tests Are Optional, Not Mandatory**
+## Test-First Approach with Coverage Measurement
 
-Instead of assuming unit tests add value, **measure their impact:**
+**Both E2E and Unit Tests Are Mandatory**
 
-### A/B Test Your Testing Strategy
+The modern approach combines the strengths of both testing strategies:
 
-**Team A: E2E + Unit Tests**
-- Write E2E tests for all features
-- Write unit tests for all functions
-- Track: bugs caught, time spent, false positives
+### Coverage-Driven Development
 
-**Team B: E2E Only**
-- Write comprehensive E2E tests
-- Skip unit tests unless clearly needed
-- Track: bugs caught, time spent, velocity
+1. **Define coverage targets before implementation**
+   - Set minimum coverage thresholds (typically 70-90%)
+   - Higher coverage = higher confidence
+   - Thresholds vary by project criticality
 
-**Measure after 3 months:**
-- Which team caught more bugs?
-- Which team shipped faster?
-- Which team had fewer production issues?
-- Which tests had the best signal-to-noise ratio?
+2. **Build testing infrastructure first**
+   - Set up E2E testing framework (Cypress, Playwright)
+   - Configure unit test runners (Jest, Vitest, Go testing)
+   - Set up component testing with test containers (if applicable)
+   - Configure coverage reporting tools for all test types
 
-### When to Write Unit Tests
+3. **Track coverage from all test types**
+   - Unit test coverage (line, branch, function coverage)
+     - JavaScript/TypeScript: `jest --coverage` or `vitest --coverage`
+     - Go: `go test -coverprofile=coverage.out ./...`
+   - E2E test coverage (code coverage from E2E tests)
+     - Cypress: `@cypress/code-coverage` plugin
+     - Playwright: `@playwright/test` with coverage instrumentation
+   - Component test coverage (integration points)
+   - Combined coverage report (merge unit + E2E + component coverage)
 
-Write unit tests ONLY when:
-1. **Complex algorithms** - Math, parsing, encryption
-2. **Edge cases** - Hard to reproduce in E2E
-3. **Performance critical** - Need to benchmark specific functions
-4. **Shared utilities** - Used across many features
+### What to Test Where
 
-**Skip unit tests for:**
-- Simple CRUD operations
-- Glue code
-- UI components
-- Database queries
-- API handlers (use E2E instead)
+**Unit Tests (Mandatory):**
+- Business logic and algorithms
+- Utility functions and helpers
+- Edge cases and boundary conditions
+- Data transformations and validators
+- Error handling paths
+- Pure functions and calculations
+
+**E2E Tests (Mandatory):**
+- Complete user journeys
+- API endpoints (request → response)
+- UI workflows (login → action → result)
+- Authentication and authorization flows
+- Data persistence verification
+- Integration between all system components
+
+**Component Tests (Good to Have):**
+- Microservices integration (use Testcontainers)
+- Database operations (with test DB containers)
+- Message queue interactions
+- External service mocks
+- Note: Not applicable for all projects (e.g., simple monoliths)
 
 ## E2E Testing Best Practices
 
@@ -258,6 +277,75 @@ describe('UI: Strategy Management', () => {
 })
 ```
 
+### 6. Measure E2E Test Coverage
+
+E2E tests should also contribute to code coverage metrics.
+
+**Setup Cypress Code Coverage:**
+
+```bash
+# Install dependencies
+npm install --save-dev @cypress/code-coverage nyc istanbul-lib-coverage
+
+# Install babel plugin for instrumentation
+npm install --save-dev babel-plugin-istanbul
+```
+
+**Configure babel.config.js:**
+
+```javascript
+module.exports = {
+  presets: ['@babel/preset-env', '@babel/preset-react'],
+  plugins: [
+    process.env.NODE_ENV === 'test' && 'istanbul'
+  ].filter(Boolean)
+}
+```
+
+**Configure cypress.config.js:**
+
+```javascript
+const { defineConfig } = require('cypress')
+const codeCoverageTask = require('@cypress/code-coverage/task')
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      codeCoverageTask(on, config)
+      return config
+    },
+  },
+})
+```
+
+**Add to cypress/support/e2e.js:**
+
+```javascript
+import '@cypress/code-coverage/support'
+```
+
+**Run E2E tests with coverage:**
+
+```bash
+# Run tests (coverage collected automatically)
+npm run test:e2e
+
+# View coverage report
+npx nyc report --reporter=html
+open coverage/index.html
+```
+
+**Merge Unit + E2E Coverage:**
+
+```bash
+# Merge coverage reports
+npx nyc merge .nyc_output coverage/merged-coverage.json
+npx nyc report --reporter=html --reporter=text --temp-dir=coverage
+
+# View combined coverage
+open coverage/index.html
+```
+
 ## Component Testing (When Needed)
 
 Use component tests for complex UI logic that's hard to test E2E.
@@ -299,11 +387,11 @@ test('wizard progresses through steps correctly', () => {
 })
 ```
 
-## Unit Testing (Optional)
+## Unit Testing Best Practices
 
-Only write unit tests when there's clear value.
+Unit tests are mandatory and provide fast feedback during development.
 
-### Good Use Case: Complex Algorithm
+### Example: Testing Business Logic
 
 ```javascript
 // Utility function with complex logic
@@ -328,29 +416,57 @@ test('handles empty trades array', () => {
 })
 ```
 
-### Bad Use Case: Simple CRUD
+### Example: Testing Validation Logic
 
 ```javascript
-❌ // Don't write unit tests for this
-class UserRepository {
-  async findById(id) {
-    return await db.query('SELECT * FROM users WHERE id = ?', [id])
-  }
+// Validator function
+function validateEmail(email) {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  return emailRegex.test(email)
 }
 
-// This is testing the database, not your code
-test('findById returns user', async () => {
-  const user = await repo.findById(1)
-  expect(user).toBeDefined()
+function validatePassword(password) {
+  return password.length >= 8 &&
+         /[A-Z]/.test(password) &&
+         /[0-9]/.test(password)
+}
+
+// Unit tests for validators
+test('validates correct email format', () => {
+  expect(validateEmail('user@example.com')).toBe(true)
+  expect(validateEmail('invalid.email')).toBe(false)
+  expect(validateEmail('missing@domain')).toBe(false)
 })
 
-✅ // Instead, write E2E test
-test('GET /api/users/:id returns user', () => {
-  cy.request('/api/users/1')
-    .its('body')
-    .should('have.property', 'email')
+test('validates password requirements', () => {
+  expect(validatePassword('Short1')).toBe(false)        // Too short
+  expect(validatePassword('NoNumbers')).toBe(false)     // No numbers
+  expect(validatePassword('nonumber1')).toBe(false)     // No uppercase
+  expect(validatePassword('ValidPass1')).toBe(true)     // Valid
 })
 ```
+
+### What About Database Operations?
+
+For database operations, use **component tests with test containers** instead of mocking:
+
+```javascript
+✅ // Component test with Testcontainer
+test('UserRepository.findById returns user', async () => {
+  // Testcontainer spins up real PostgreSQL
+  const container = await new PostgreSqlContainer().start()
+  const repo = new UserRepository(container.getConnectionString())
+
+  await repo.create({ email: 'test@example.com', name: 'Test User' })
+  const user = await repo.findById(1)
+
+  expect(user.email).toBe('test@example.com')
+
+  await container.stop()
+})
+```
+
+For simple CRUD without complex logic, E2E tests may be sufficient.
 
 ## Test Organization
 
@@ -495,9 +611,11 @@ jobs:
 
 **Merge Requirements:**
 - ✅ All E2E tests pass
+- ✅ All unit tests pass
+- ✅ Coverage thresholds met (typically 70-90%)
 - ✅ No console errors
 - ✅ Build succeeds
-- ⚠️ Unit test coverage (optional)
+- ✅ Lint checks pass
 
 ## Debugging Failed Tests
 
@@ -536,21 +654,25 @@ cy.get('[data-test="total"]').then(($el) => {
 ## Best Practices Summary
 
 ✅ **DO:**
-- Write comprehensive E2E tests
-- Test user journeys, not functions
-- Use data-test attributes
-- Create reusable commands
+- Write comprehensive E2E tests for all user journeys
+- Write unit tests for business logic, utilities, and edge cases
+- Use component tests with test containers for microservices
+- Measure and track coverage from all test types
+- Define coverage targets before implementation (test-first approach)
+- Build testing infrastructure/framework first
+- Use data-test attributes for stable selectors
+- Create reusable test commands and utilities
 - Separate API and UI tests
-- Only write unit tests when clearly valuable
-- Measure test effectiveness
+- Run lint and tests in pre-commit hooks
 
 ❌ **DON'T:**
-- Test implementation details
-- Write unit tests for everything
+- Skip unit tests (they're mandatory)
+- Skip E2E tests (they're mandatory)
+- Test only implementation details
 - Use fragile CSS selectors
-- Mock everything (defeats E2E purpose)
-- Skip E2E because they're "slow"
-- Assume unit tests add value without measuring
+- Mock everything in E2E tests (defeats the purpose)
+- Ignore coverage metrics
+- Assume tests add value without measuring effectiveness
 
 ---
 

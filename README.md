@@ -56,11 +56,12 @@ A comprehensive guide to working effectively with Claude Code (claude.ai/code) f
 - Updated throughout the project lifecycle
 - See the [template](./examples/claude-md-template.md) for a complete example
 
-**2. E2E Tests > Unit Tests**
-- Prioritize end-to-end tests over unit tests
-- Unit tests are optional, not mandatory
-- Test user journeys, not implementation details
-- Comprehensive E2E coverage enables confident refactoring
+**2. Comprehensive Testing with Coverage**
+- E2E tests are mandatory (test user journeys end-to-end)
+- Unit tests are mandatory (test business logic, utilities, edge cases)
+- Component tests are good to have (test containers for microservices)
+- Track coverage from all test types (higher coverage = better confidence)
+- Test-first approach: Build testing infrastructure before implementation
 
 **3. AI Executes 100%, Humans Validate 100%**
 - AI handles all coding, testing, and documentation

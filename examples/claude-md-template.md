@@ -13,7 +13,7 @@ Brief one-sentence description of what this project does.
 - Documentation generated from OpenAPI specs
 
 **Micro-Teams of 2**
-- Teams of 2 developers (1 + Claude)
+- Teams of 2 humans + Claude Code
 - Redundancy without coordination overhead
 - Each team owns end-to-end features
 - Parallel development without bottlenecks
@@ -26,9 +26,12 @@ Brief one-sentence description of what this project does.
 - Own the entire vertical slice
 
 **Testing Philosophy**
-- E2E tests are mandatory (API + UI)
-- Unit tests are optional (only for complex algorithms)
-- Test user journeys, not implementation details
+- E2E tests are mandatory (API + UI user journeys)
+- Unit tests are mandatory (business logic, utilities, edge cases)
+- Component tests are good to have (use test containers where applicable)
+- Coverage measurement is important (track unit, component, and E2E coverage)
+- Coverage thresholds vary by project (higher is better)
+- Test-first approach: Define coverage targets and build testing infrastructure before implementation
 - Tests are your regression safety net
 
 ## Overview
@@ -136,10 +139,14 @@ Event-driven architecture using NATS:
 - **HTTP**: Axios
 
 ### Testing
-- **E2E Tests (Mandatory)**: Cypress 13.x
-- **API E2E**: Cypress for API testing
-- **UI E2E**: Cypress for browser testing
-- **Unit Tests (Optional)**: Go's testing package (for algorithms only)
+- **E2E Tests (Mandatory)**: Cypress 13.x for API and UI testing
+- **Unit Tests (Mandatory)**: Go's testing package, Jest/Vitest for frontend
+- **Component Tests (Good to have)**: Test containers (Testcontainers) for microservices integration
+- **Coverage Tools**:
+  - Unit: `jest --coverage`, `vitest --coverage`, `go test -coverprofile=coverage.out`
+  - E2E: `@cypress/code-coverage` plugin with NYC
+  - Merge: `nyc merge` to combine unit + E2E + component coverage
+  - Thresholds: Typically 70-90% (varies by project criticality)
 
 ### DevOps
 - **Containerization**: Docker + Docker Compose
@@ -412,8 +419,23 @@ migrate -path migrations -database "postgres://user:pass@localhost:5432/dbname" 
 ### Testing
 
 ```bash
-# Run all E2E tests
+# Run all tests (unit + E2E)
+npm test
+
+# Run unit tests only
+npm run test:unit
+
+# Run unit tests with coverage
+npm run test:unit:coverage
+# or for Go:
+cd api-service && go test -coverprofile=coverage.out ./...
+cd api-service && go tool cover -html=coverage.out
+
+# Run E2E tests
 npm run test:e2e
+
+# Run E2E tests with coverage
+npm run test:e2e:coverage
 
 # Run API E2E tests only
 cd api-service && npm run test:e2e
@@ -426,6 +448,14 @@ npm run test:e2e:headed
 
 # Open Cypress UI
 npx cypress open
+
+# Generate combined coverage report (unit + E2E + component)
+npm run coverage:merge
+npx nyc report --reporter=html --reporter=text
+open coverage/index.html
+
+# Check coverage thresholds
+npx nyc check-coverage --lines 80 --functions 80 --branches 80
 ```
 
 ### Code Quality
@@ -751,13 +781,73 @@ GET /api/v1/resources?page=1&limit=20&sort=created_at&order=desc
 
 ## Testing Strategy
 
-### E2E Tests Are Mandatory
+### Test-First Approach with Comprehensive Coverage
 
-**Priority: E2E > Component > Unit**
+**All tests are important for quality and confidence:**
 
-- **E2E Tests (Required)**: Test complete user journeys
-- **Component Tests (Optional)**: Only for complex UI logic
-- **Unit Tests (Optional)**: Only for critical algorithms
+- **E2E Tests (Mandatory)**: Test complete user journeys (API + UI)
+- **Unit Tests (Mandatory)**: Test business logic, utilities, and edge cases
+- **Component Tests (Good to have)**: Use test containers (Testcontainers) for microservices integration testing
+- **Coverage Measurement**: Track coverage from unit, component, and E2E tests
+- **Coverage Thresholds**: Vary by project, but higher is better (typically 70-90%)
+- **Test-First Workflow**: Define coverage targets and build testing infrastructure/framework before implementation
+
+### Setting Up Coverage Infrastructure
+
+**Install Coverage Tools:**
+
+```bash
+# For JavaScript/TypeScript projects
+npm install --save-dev @cypress/code-coverage nyc istanbul-lib-coverage babel-plugin-istanbul
+
+# For unit tests
+npm install --save-dev jest @jest/globals
+# or
+npm install --save-dev vitest @vitest/ui
+```
+
+**Configure package.json scripts:**
+
+```json
+{
+  "scripts": {
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "jest",
+    "test:unit:coverage": "jest --coverage",
+    "test:e2e": "cypress run",
+    "test:e2e:coverage": "NODE_ENV=test cypress run",
+    "coverage:merge": "npx nyc merge .nyc_output coverage/merged-coverage.json",
+    "coverage:report": "npx nyc report --reporter=html --reporter=text"
+  },
+  "nyc": {
+    "report-dir": "coverage",
+    "reporter": ["html", "text", "lcov"],
+    "exclude": ["**/*.test.js", "**/*.spec.js", "cypress/**"]
+  }
+}
+```
+
+**Configure Cypress for coverage (cypress.config.js):**
+
+```javascript
+const { defineConfig } = require('cypress')
+const codeCoverageTask = require('@cypress/code-coverage/task')
+
+module.exports = defineConfig({
+  e2e: {
+    setupNodeEvents(on, config) {
+      codeCoverageTask(on, config)
+      return config
+    },
+  },
+})
+```
+
+**Add to cypress/support/e2e.js:**
+
+```javascript
+import '@cypress/code-coverage/support'
+```
 
 ### API E2E Tests (Cypress)
 

@@ -220,9 +220,9 @@ func (h *UserHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
 
 **Deliverable:** API implementation
 
-### Step 5: API E2E Tests
+### Step 5: API Tests (E2E + Unit)
 
-**AI:** Write comprehensive E2E tests for API
+**AI:** Write comprehensive E2E tests and unit tests for API
 
 ```javascript
 // tests/e2e/api/user-profile.cy.js
@@ -306,13 +306,38 @@ describe('API: User Profile', () => {
 })
 ```
 
+```go
+// tests/unit/validators_test.go
+
+func TestValidateEmail(t *testing.T) {
+    tests := []struct {
+        email string
+        valid bool
+    }{
+        {"user@example.com", true},
+        {"invalid.email", false},
+        {"", false},
+        {"no-at-sign.com", false},
+    }
+
+    for _, tt := range tests {
+        result := validateEmail(tt.email)
+        if result != tt.valid {
+            t.Errorf("validateEmail(%s) = %v, want %v",
+                tt.email, result, tt.valid)
+        }
+    }
+}
+```
+
 **Human:** Review and run tests
-- Do tests cover all scenarios?
+- Do E2E tests cover all API scenarios?
+- Do unit tests cover edge cases and validations?
 - Do all tests pass?
-- Are edge cases tested?
+- Is coverage threshold met (typically 70-90%)?
 - Is test data managed correctly?
 
-**Deliverable:** Passing E2E tests for API
+**Deliverable:** Passing E2E and unit tests for API with good coverage
 
 ### Step 6: Frontend Implementation
 
@@ -429,9 +454,9 @@ export function ProfileEditor() {
 
 **Deliverable:** Frontend components
 
-### Step 7: UI E2E Tests
+### Step 7: UI Tests (E2E + Unit)
 
-**AI:** Write E2E tests for UI
+**AI:** Write E2E tests and unit tests for UI
 
 ```javascript
 // tests/e2e/ui/profile-editor.cy.js
@@ -510,13 +535,39 @@ describe('UI: Profile Editor', () => {
 })
 ```
 
+```javascript
+// tests/unit/ProfileEditor.test.js
+
+import { render, fireEvent } from '@testing-library/react'
+import { ProfileEditor } from './ProfileEditor'
+
+test('validates email format before submission', () => {
+  const { getByLabelText, getByText } = render(<ProfileEditor />)
+
+  fireEvent.change(getByLabelText('Email'), {
+    target: { value: 'invalid-email' }
+  })
+  fireEvent.click(getByText('Save Changes'))
+
+  expect(getByText('Please enter a valid email')).toBeInTheDocument()
+})
+
+test('disables submit button when loading', () => {
+  const { getByText } = render(<ProfileEditor loading={true} />)
+
+  expect(getByText('Saving...')).toBeDisabled()
+})
+```
+
 **Human:** Review and run UI tests
+- Do E2E tests cover all user interactions?
+- Do unit tests cover form validation and component logic?
 - Do all tests pass?
-- Are user interactions tested?
+- Is coverage threshold met (typically 70-90%)?
 - Are error scenarios covered?
 - Do tests use stable selectors?
 
-**Deliverable:** Passing E2E tests for UI
+**Deliverable:** Passing E2E and unit tests for UI with good coverage
 
 ### Step 8: Documentation
 
@@ -604,6 +655,8 @@ Updates the authenticated user's profile information.
 
 **Testing:**
 - [ ] All E2E tests pass?
+- [ ] All unit tests pass?
+- [ ] Coverage thresholds met (typically 70-90%)?
 - [ ] Edge cases covered?
 - [ ] Error scenarios tested?
 - [ ] Test data cleaned up?
@@ -623,7 +676,8 @@ Updates the authenticated user's profile information.
 ```bash
 # Pre-deployment checks
 npm run lint
-npm test
+npm run test          # Run all tests (unit + E2E)
+npm run test:coverage # Verify coverage thresholds
 npm run build
 
 # Run migrations
@@ -658,9 +712,9 @@ curl https://example.com
 1. Design database schema
 2. Implement repository layer
 3. Build API endpoints
-4. Write comprehensive E2E tests
+4. Write comprehensive E2E tests and unit tests for API
 5. Create frontend components
-6. Write UI E2E tests
+6. Write UI E2E tests and unit tests
 7. Update documentation
 8. Execute deployment commands
 
@@ -669,9 +723,9 @@ curl https://example.com
 2. Review database schema
 3. Review repository implementation
 4. Review API implementation
-5. Verify API tests pass
+5. Verify API tests pass and coverage meets threshold
 6. Review frontend implementation
-7. Verify UI tests pass
+7. Verify UI tests pass and coverage meets threshold
 8. Review documentation
 9. Conduct code review
 10. Verify deployment
@@ -685,7 +739,8 @@ curl https://example.com
 - Clear criteria for approval
 
 **Quality Gates:**
-- Tests must pass before proceeding
+- All tests (E2E + unit) must pass before proceeding
+- Coverage thresholds must be met
 - Reviews must approve before merging
 - Deployments must verify before closing
 

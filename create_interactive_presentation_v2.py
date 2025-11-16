@@ -270,7 +270,7 @@ def create_presentation():
             "E2E tests validate complete user journeys"
         ]),
         ("Micro-Teams of 2:", [
-            "1 human + Claude = redundancy without overhead",
+            "2 humans + Claude Code = redundancy without overhead",
             "Each team owns end-to-end features",
             "Parallel development without bottlenecks"
         ]),
@@ -283,15 +283,17 @@ def create_presentation():
     page_num += 1
 
     create_content_slide(story, styles, "Testing Philosophy", [
-        "E2E tests are MANDATORY (API + UI)",
-        "Unit tests are OPTIONAL (only for complex algorithms)",
-        ("Why this works:", [
-            "Test user journeys, not implementation details",
-            "Catch integration issues early",
-            "Enable confident refactoring",
+        "E2E tests are MANDATORY (API + UI user journeys)",
+        "Unit tests are MANDATORY (business logic, utilities, edge cases)",
+        "Component tests are GOOD TO HAVE (test containers for microservices)",
+        ("Test-First Approach:", [
+            "Define coverage targets before implementation",
+            "Build testing infrastructure/framework first",
+            "Track coverage from unit, component, and E2E tests",
+            "Coverage thresholds vary by project (higher is better)",
             "Tests are your regression safety net"
         ]),
-        "Measure test effectiveness - don't assume value"
+        "Measure coverage to ensure quality and confidence"
     ])
     page_num += 1
 
