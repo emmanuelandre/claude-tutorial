@@ -1,0 +1,5 @@
+# Code Owners for claude-tutorial repository
+# These owners will be automatically requested for review when someone opens a pull request.
+
+# Global owner for all files
+* @emmanuelandre
