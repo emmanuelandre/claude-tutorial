@@ -15,9 +15,8 @@
 
 ### Setup (5 minutes before)
 1. Open `claude-code-interactive-tutorial.pdf` on projector
-2. Share link to repository: https://github.com/emmanuelandre/claude-tutorial
-3. Ask attendees to open `prompts.md` on their laptops
-4. Verify attendees have Claude Code access (claude.ai/code)
+2. Ask attendees to open `prompts.md` on their laptops
+3. Verify attendees have Claude Code access (claude.ai/code)
 
 ### During Workshop
 1. **Present slides** - Show slide on projector screen
@@ -128,7 +127,6 @@ Both commands generate PDFs. The v2 script also generates `prompts.md`.
 ## Post-Workshop
 
 Share with attendees:
-- Repository: https://github.com/emmanuelandre/claude-tutorial
 - Full documentation in `/docs` folder
 - CLAUDE.md template in `/examples`
 - Encourage them to try the final exercise at home

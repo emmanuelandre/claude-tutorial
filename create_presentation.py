@@ -79,13 +79,6 @@ def create_title_slide(story, styles):
         styles['Title']
     )
     story.append(desc)
-    story.append(Spacer(1, 0.5*inch))
-
-    footer = Paragraph(
-        '<font color="#999999" size="12">https://github.com/emmanuelandre/claude-tutorial</font>',
-        styles['Title']
-    )
-    story.append(footer)
 
     story.append(PageBreak())
 
@@ -453,9 +446,6 @@ def create_presentation():
 
     # Slide 16: Resources
     create_content_slide(story, styles, "Resources & Next Steps", [
-        ("Tutorial Repository:", [
-            "github.com/emmanuelandre/claude-tutorial"
-        ]),
         ("Official Documentation:", [
             "Claude Code: claude.ai/code",
             "Claude Docs: docs.anthropic.com"
@@ -482,13 +472,6 @@ def create_presentation():
         styles['Title']
     )
     story.append(questions)
-    story.append(Spacer(1, 0.3*inch))
-
-    repo = Paragraph(
-        '<font color="#0076CE" size="16">github.com/emmanuelandre/claude-tutorial</font>',
-        styles['Title']
-    )
-    story.append(repo)
 
     # Build PDF
     doc.build(story, canvasmaker=NumberedCanvas)

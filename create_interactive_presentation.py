@@ -67,10 +67,6 @@ def create_title_slide(story, styles):
 
     desc = Paragraph('<font color="#5B5B5B" size="16">AI-First Development for Modern Software Teams</font>', styles['Title'])
     story.append(desc)
-    story.append(Spacer(1, 0.5*inch))
-
-    footer = Paragraph('<font color="#999999" size="12">https://github.com/emmanuelandre/claude-tutorial</font>', styles['Title'])
-    story.append(footer)
 
     story.append(PageBreak())
 
@@ -298,9 +294,7 @@ git init
 - PostgreSQL database
 - JWT authentication
 - RESTful endpoints
-- Docker deployment
-
-Follow the template structure from github.com/emmanuelandre/claude-tutorial"
+- Docker deployment"
 """,
         "Claude will create a complete CLAUDE.md with your project structure, conventions, and commands"
     )
@@ -915,9 +909,6 @@ Help me debug this."
     ])
 
     create_content_slide(story, styles, "Resources", [
-        ("Tutorial Repository:", [
-            "github.com/emmanuelandre/claude-tutorial"
-        ]),
         ("Documentation:", [
             "Complete CLAUDE.md template",
             "Step-by-step workflow guides",
@@ -938,10 +929,6 @@ Help me debug this."
 
     questions = Paragraph('<font color="#5B5B5B" size="24">Questions & Practice Time</font>', styles['Title'])
     story.append(questions)
-    story.append(Spacer(1, 0.3*inch))
-
-    repo = Paragraph('<font color="#0076CE" size="16">github.com/emmanuelandre/claude-tutorial</font>', styles['Title'])
-    story.append(repo)
 
     # Build PDF
     doc.build(story, canvasmaker=NumberedCanvas)
