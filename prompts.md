@@ -4,7 +4,7 @@ Copy and paste these prompts during the workshop exercises.
 
 ---
 
-## Page 23: Create Your First Project
+## Page 24: Create Your First Project
 
 **PROMPT:**
 ```
@@ -27,7 +27,7 @@ Claude creates a comprehensive CLAUDE.md with architecture, commands, and conven
 
 ---
 
-## Page 24: Initialize Git Workflow
+## Page 25: Initialize Git Workflow
 
 **PROMPT:**
 ```
@@ -44,7 +44,7 @@ Git repository with proper branch structure and commit conventions
 
 ---
 
-## Page 27: Step 1 - Write Specification
+## Page 28: Step 1 - Write Specification
 
 **PROMPT:**
 ```
@@ -74,7 +74,7 @@ Claude asks clarifying questions and confirms the specification
 
 ---
 
-## Page 29: Step 2 - Review Schema
+## Page 30: Step 2 - Review Schema
 
 **PROMPT:**
 ```
@@ -97,7 +97,7 @@ Database table created successfully with proper indexes
 
 ---
 
-## Page 31: Step 4 - Request API Implementation
+## Page 32: Step 4 - Request API Implementation
 
 **PROMPT:**
 ```
@@ -127,7 +127,7 @@ Claude creates handler files with validation and error handling
 
 ---
 
-## Page 33: Step 5 - Request API Tests
+## Page 34: Step 5 - Request API Tests
 
 **PROMPT:**
 ```
@@ -152,7 +152,7 @@ Cypress test file created with all test cases
 
 ---
 
-## Page 35: Run API Tests
+## Page 36: Run API Tests
 
 **PROMPT:**
 ```
@@ -171,7 +171,7 @@ All API tests pass (green checkmarks in terminal)
 
 ---
 
-## Page 36: Step 6 - Request Frontend
+## Page 37: Step 6 - Request Frontend
 
 **PROMPT:**
 ```
@@ -198,7 +198,7 @@ React components created with forms and state management
 
 ---
 
-## Page 38: Step 7 - Request UI Tests
+## Page 39: Step 7 - Request UI Tests
 
 **PROMPT:**
 ```
@@ -220,7 +220,7 @@ Cypress UI test file created with user journey tests
 
 ---
 
-## Page 42: Practice: Write E2E Test
+## Page 43: Practice: Write E2E Test
 
 **PROMPT:**
 ```
@@ -242,7 +242,7 @@ Complete password reset feature with passing E2E tests
 
 ---
 
-## Page 46: Practice: Proper Git Workflow
+## Page 47: Practice: Proper Git Workflow
 
 **PROMPT:**
 ```
@@ -267,7 +267,7 @@ PR created with passing CI checks and proper commit messages
 
 ---
 
-## Page 48: Practice: Better Prompts
+## Page 49: Practice: Better Prompts
 
 **PROMPT:**
 ```
@@ -296,7 +296,7 @@ You create a comprehensive, specific prompt with clear requirements
 
 ---
 
-## Page 52: Final Exercise: Complete Feature
+## Page 53: Final Exercise: Complete Feature
 
 **PROMPT:**
 ```
@@ -328,7 +328,7 @@ Complete profile feature with passing tests and PR ready for review
 
 ---
 
-## Page 58: EXERCISE: Multi-Phase Task Manager (Phase 0)
+## Page 59: EXERCISE: Multi-Phase Task Manager (Phase 0)
 
 **PROMPT:**
 ```
@@ -371,7 +371,7 @@ devplan.md created with 4 phases and dependency mapping
 
 ---
 
-## Page 59: EXERCISE: Create Progress Tracker
+## Page 60: EXERCISE: Create Progress Tracker
 
 **PROMPT:**
 ```
@@ -406,7 +406,7 @@ devprogress.md and database.md created
 
 ---
 
-## Page 60: EXERCISE: Implement Phase 0 Database
+## Page 61: EXERCISE: Implement Phase 0 Database
 
 **PROMPT:**
 ```
@@ -444,7 +444,7 @@ Migrations created and progress updated
 
 ---
 
-## Page 61: EXERCISE: Implement Auth System
+## Page 62: EXERCISE: Implement Auth System
 
 **PROMPT:**
 ```
