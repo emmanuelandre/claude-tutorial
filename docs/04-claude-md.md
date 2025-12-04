@@ -259,9 +259,8 @@ git commit -m "docs: update CLAUDE.md with new API patterns"
 
 ## Example Projects
 
-- [API Service](../examples/api-service-claude.md)
-- [React App](../examples/react-app-claude.md)
-- [Microservices](../examples/microservices-claude.md)
+- [CLAUDE.md Template](../examples/claude-md-template.md) - Comprehensive production-ready template
+- [my-api-project](../examples/my-api-project/CLAUDE.md) - Workshop reference example (Go API)
 
 ---
 

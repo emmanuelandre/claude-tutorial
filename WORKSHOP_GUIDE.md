@@ -124,9 +124,40 @@ python3 create_interactive_presentation_v2.py
 
 Both commands generate PDFs. The v2 script also generates `prompts.md`.
 
+## Using the Reference Example
+
+The `examples/my-api-project/` directory contains a complete reference implementation.
+
+### What's Included
+- `CLAUDE.md` - Production-ready project configuration
+- `migrations/001_create_users.up.sql` - Database migration with triggers
+- `migrations/001_create_users.down.sql` - Rollback migration
+
+### How to Use During Workshop
+
+1. **Attendees complete exercises independently** first
+2. **After each exercise**, show the reference example for comparison
+3. **Discuss differences** - different approaches are OK if they work!
+4. **Do NOT show before exercise** - prevents learning
+
+### When to Show Reference
+
+| After Exercise | Show |
+|----------------|------|
+| Page 9 (Create CLAUDE.md) | `examples/my-api-project/CLAUDE.md` |
+| Page 15 (Review Schema) | `examples/my-api-project/migrations/` |
+
+### Discussion Points
+
+- Reference CLAUDE.md includes automatic `updated_at` trigger
+- Reference migration has both up and down versions
+- Compare attendee outputs - different is OK if it works!
+- Highlight patterns: indexes, constraints, comments
+
 ## Post-Workshop
 
 Share with attendees:
 - Full documentation in `/docs` folder
 - CLAUDE.md template in `/examples`
+- Reference project in `/examples/my-api-project`
 - Encourage them to try the final exercise at home

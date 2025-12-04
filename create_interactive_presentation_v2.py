@@ -209,7 +209,68 @@ def export_prompts_to_markdown():
             f.write('\n```\n\n')
             f.write(f'**EXPECTED RESULT:**\n')
             f.write(f'{item["expected"]}\n\n')
+
+            # Add reference examples for specific pages
+            if item["page"] == 9:
+                f.write('\n**REFERENCE EXAMPLE:**\n')
+                f.write('Compare your generated CLAUDE.md with `examples/my-api-project/CLAUDE.md` to see a production-ready example.\n\n')
+            elif item["page"] == 15:
+                f.write('\n**REFERENCE EXAMPLE:**\n')
+                f.write('See `examples/my-api-project/migrations/001_create_users.up.sql` for a complete migration including:\n')
+                f.write('- Proper index on email column\n')
+                f.write('- Automatic updated_at trigger\n')
+                f.write('- Both up.sql and down.sql files\n\n')
+
             f.write('---\n\n')
+
+        # Add new documentation organization exercises at the end
+        f.write('## NEW: Documentation Organization Exercise\n\n')
+        f.write('**PROMPT:**\n```\n')
+        f.write('''I'm starting a new project. Help me decide on documentation structure.
+
+Project details:
+- Solo developer
+- 3-month project
+- Single Go API service
+- ~40 tasks estimated
+
+Based on these factors, should I use:
+A) Simple flat structure (plan.md, architecture.md at root)
+B) Nested structure (project/planning/, project/specs/)
+
+Create the appropriate documentation files for my choice.
+Include:
+- plan.md or devplan.md with milestones
+- architecture.md with system design
+- requirements.md with key features
+''')
+        f.write('```\n\n')
+        f.write('**EXPECTED RESULT:**\n')
+        f.write('Claude recommends nested structure (40 tasks, 3 months) and creates starter files\n\n')
+        f.write('**REFERENCE:**\n')
+        f.write('See [docs/12-documentation-organization.md](docs/12-documentation-organization.md) for decision criteria and templates.\n\n')
+        f.write('---\n\n')
+
+        f.write('## NEW: Migrate Flat to Nested Structure\n\n')
+        f.write('**PROMPT:**\n```\n')
+        f.write('''My project has grown. I started with simple flat docs:
+- plan.md
+- architecture.md
+- requirements.md
+
+Now I have 50+ tasks across 5 features. Help me migrate to
+the nested structure:
+- Move plan.md content to project/planning/devplan.md
+- Create project/planning/devprogress.md for tracking
+- Split requirements into project/specs/ by feature
+- Keep architecture.md updated
+
+Preserve all existing content during migration.
+''')
+        f.write('```\n\n')
+        f.write('**EXPECTED RESULT:**\n')
+        f.write('Documentation migrated to nested structure with content preserved\n\n')
+        f.write('---\n\n')
 
 def create_presentation():
     """Generate the complete interactive presentation"""
@@ -233,6 +294,8 @@ def create_presentation():
     # AGENDA
     create_content_slide(story, styles, "Workshop Agenda", [
         "Part 1: Philosophy & Foundation",
+        "Addressing Common Concerns about AI-First Development",
+        "Prompt Engineering vs Vibe Coding",
         "Part 2: Getting Started Hands-On",
         "Part 3: Core Workflow (Interactive)",
         "Part 4: Testing Strategy (Live Demo)",
@@ -290,6 +353,203 @@ def create_presentation():
             "Tests are your regression safety net"
         ]),
         "Measure coverage to ensure quality and confidence"
+    ])
+    page_num += 1
+
+    # =================
+    # ADDRESSING COMMON CONCERNS
+    # =================
+    create_section_slide(story, styles, "Addressing Common Concerns")
+    page_num += 1
+
+    create_content_slide(story, styles, "Common Concerns About AI-First Development", [
+        "1. Code Quality & Reliability - Hallucinations, hidden bugs",
+        "2. Security Risks - Insecure patterns, data leakage",
+        "3. Maintainability & Technical Debt - Opaque code, inconsistent style",
+        "4. Design Integrity - Architecture drift, loss of intent",
+        "5. Testing & Validation - False sense of coverage",
+        "6. IP & Compliance - License ambiguity, auditability",
+        "7. Developer Experience - Skill atrophy, workflow disruption",
+        "8. Accountability - Who owns AI-generated bugs?"
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #1: Code Quality & Reliability", [
+        ("The Concern:", [
+            "AI generates syntactically correct but logically flawed code",
+            "Hidden bugs pass tests but fail in edge cases",
+            "Engineers might trust AI output without validation"
+        ]),
+        ("How We Address It:", [
+            "Human validates 100% - Every line is reviewed",
+            "Mandatory E2E tests catch integration issues",
+            "Pre-commit checks enforce quality gates",
+            "Three-layer review: Self → Automated → Peer"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #2: Security Risks", [
+        ("The Concern:", [
+            "AI might introduce vulnerabilities (SQL injection, weak crypto)",
+            "Proprietary code exposed to cloud-based AI tools",
+            "Unknown dependencies with security issues"
+        ]),
+        ("How We Address It:", [
+            "Security checklist in code review (see docs/15-security.md)",
+            "Automated security scanning in CI (gosec, npm audit)",
+            "Claude Code runs locally - your code stays on your machine",
+            "Explicit prompts for secure patterns"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #3: Maintainability & Technical Debt", [
+        ("The Concern:", [
+            "AI-generated code hard to understand or maintain",
+            "Suggestions may not follow team conventions",
+            "Quick fixes pile up without proper review"
+        ]),
+        ("How We Address It:", [
+            "CLAUDE.md defines all conventions - AI follows them",
+            "Consistent patterns across entire codebase",
+            "Human review catches non-idiomatic code",
+            "Refactor requests explicit in prompts"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #4: Design Integrity", [
+        ("The Concern:", [
+            "AI optimizes for local solutions, not holistic design",
+            "Code may work but ignore design principles (SOLID)",
+            "Risk of skipping critical design thinking"
+        ]),
+        ("How We Address It:", [
+            "Architecture documented in CLAUDE.md",
+            "Human writes specifications BEFORE AI implements",
+            "Design decisions in ADRs (Architecture Decision Records)",
+            "AI follows existing patterns, doesn't invent new ones"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #5: Testing & Validation", [
+        ("The Concern:", [
+            "AI generates tests that don't cover real scenarios",
+            "Non-deterministic outputs hard to debug",
+            "AI-generated modules may not integrate well"
+        ]),
+        ("How We Address It:", [
+            "Test-first approach - define tests before implementation",
+            "E2E tests validate complete user journeys",
+            "Human verifies test quality, not just coverage",
+            "Integration testing mandatory in CI"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concerns #6-8: IP, Experience & Accountability", [
+        ("IP & Compliance:", [
+            "Review AI suggestions for license issues",
+            "Keep audit trail of AI-generated code in commits"
+        ]),
+        ("Developer Experience:", [
+            "AI executes, Human validates - skills remain sharp",
+            "Review process maintains deep code understanding",
+            "Pair programming with AI, not replacement"
+        ]),
+        ("Accountability:", [
+            "Human approves every PR - human owns the code",
+            "Clear handoffs document who validated what",
+            "Git history shows human review at each step"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "The Bottom Line", [
+        "AI-First ≠ AI-Only",
+        ("The methodology addresses concerns through:", [
+            "Systematic validation at every step",
+            "Comprehensive testing (E2E + Unit)",
+            "Clear human ownership and accountability",
+            "Documented conventions in CLAUDE.md",
+            "Quality gates that must pass before merge"
+        ]),
+        "Result: Faster development WITH maintained quality"
+    ])
+    page_num += 1
+
+    # =================
+    # PROMPT ENGINEERING VS VIBE CODING
+    # =================
+    create_section_slide(story, styles, "Prompt Engineering vs Vibe Coding")
+    page_num += 1
+
+    create_content_slide(story, styles, "What is Vibe Coding?", [
+        "Definition: Informal, exploratory approach with minimal instructions",
+        ("Characteristics:", [
+            "Speed and experimentation over precision",
+            "Relies on AI to 'guess' or 'fill in' intent",
+            "Minimal context provided"
+        ]),
+        "Example: 'Make something that sorts numbers'",
+        ("Result:", [
+            "May work quickly for prototypes",
+            "Unpredictable or suboptimal code",
+            "Hard to maintain and debug"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "What is Prompt Engineering?", [
+        "Definition: Precise, structured inputs to guide AI behavior",
+        ("Characteristics:", [
+            "Context, constraints, and examples provided",
+            "Understanding how the model interprets language",
+            "Clear success criteria defined"
+        ]),
+        "Example: 'Write a Python function to sort integers ascending, no built-in sort'",
+        ("Result:", [
+            "Predictable, production-quality code",
+            "Easier to maintain and extend",
+            "Consistent with project standards"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Side-by-Side Comparison", [
+        ("Speed:", [
+            "Vibe: Fast initial results",
+            "Prompt: Efficient overall (less rework)"
+        ]),
+        ("Quality:", [
+            "Vibe: Unpredictable, may need fixes",
+            "Prompt: Consistent, meets requirements"
+        ]),
+        ("Maintenance:", [
+            "Vibe: Harder - unclear intent",
+            "Prompt: Easier - documented approach"
+        ]),
+        ("Best For:", [
+            "Vibe: Quick prototypes, exploration",
+            "Prompt: Production code, team projects"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "This Workshop Uses Prompt Engineering", [
+        "We teach structured, production-quality prompting",
+        ("The AI-First workflow:", [
+            "Human writes detailed specification",
+            "AI executes within defined boundaries",
+            "Human validates every output"
+        ]),
+        ("Flow: Spec → Schema → Code → Tests", [
+            "Each step has clear inputs and outputs",
+            "Nothing left to 'vibes' or guesswork"
+        ]),
+        "Result: Code you can confidently ship to production"
     ])
     page_num += 1
 
