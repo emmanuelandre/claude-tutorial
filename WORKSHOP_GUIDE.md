@@ -1,15 +1,120 @@
 # Workshop Presentation Guide
 
+## Available Presentations
+
+| Presentation | Duration | Format | Use Case |
+|--------------|----------|--------|----------|
+| `ai-first-lecture.pdf` | 1 hour | Lecture (no hands-on) | Conference talks, team briefings |
+| `ai-first-workshop.pdf` | 3 hours | Hands-on | Training sessions, bootcamps |
+| `claude-code-interactive-tutorial.pdf` | 2-3 hours | Interactive | Standard workshops |
+| `claude-code-tutorial.pdf` | 30 min | Overview | Quick introductions |
+
 ## Files Overview
 
 ### Presentation Files
-- **`claude-code-tutorial.pdf`** - 17-slide overview presentation (use for short talks)
-- **`claude-code-interactive-tutorial.pdf`** - 40+ slide interactive workshop (full hands-on session)
-- **`prompts.md`** - All workshop prompts with page references for easy copy-paste
+- **`ai-first-lecture.pdf`** - 1-hour lecture covering all AI-first topics (NO hands-on)
+- **`ai-first-workshop.pdf`** - 3-hour workshop where attendees build from scratch
+- **`workshop-prompts.md`** - Prompts for the 3-hour workshop (auto-generated)
+- **`claude-code-interactive-tutorial.pdf`** - Original 40+ slide interactive workshop
+- **`prompts.md`** - Original workshop prompts with page references
+- **`claude-code-tutorial.pdf`** - 17-slide overview presentation (short talks)
 
 ### Python Scripts
+- **`presentation_utils.py`** - Shared utilities for PDF generation
+- **`create_lecture_presentation.py`** - Generates the 1-hour lecture PDF
+- **`create_handson_workshop.py`** - Generates the 3-hour workshop PDF + workshop-prompts.md
+- **`create_interactive_presentation_v2.py`** - Generates the interactive workshop PDF + prompts.md
 - **`create_presentation.py`** - Generates the 17-slide overview PDF
-- **`create_interactive_presentation_v2.py`** - Generates the interactive workshop PDF and prompts.md
+
+---
+
+## Option 1: 1-Hour Lecture (No Hands-On)
+
+**Use:** `ai-first-lecture.pdf`
+
+### When to Use
+- Conference talks
+- Team briefings
+- Executive presentations
+- Introduction sessions without setup time
+
+### Topics Covered (~50 min + Q&A)
+1. AI-First Philosophy (4 min)
+2. Addressing Common Concerns (5 min)
+3. Prompt Engineering vs Vibe Coding (4 min)
+4. Getting Started with Prompt Engineering (6 min)
+5. Scaling to Large Projects (5 min)
+6. Feature Documentation Best Practices (5 min)
+7. Testing Strategies (5 min)
+8. Project Planning & 10-Step Workflow (4 min)
+9. Git Best Practices (4 min)
+10. Tips & Tricks (5 min)
+
+### Setup
+- Open `ai-first-lecture.pdf` on projector
+- No attendee setup needed
+- Allow 10-15 min Q&A at end
+
+---
+
+## Option 2: 3-Hour Hands-On Workshop
+
+**Use:** `ai-first-workshop.pdf` + `workshop-prompts.md`
+
+### When to Use
+- Full training sessions
+- Bootcamps
+- Teams wanting practical experience
+- Groups with 3+ hours available
+
+### Prerequisites for Attendees
+- Laptop with internet
+- Claude Code access (or other AI coding assistant)
+- Git installed
+- GitHub account
+- Preferred language runtime (Go, Node, Python)
+- Code editor (VS Code, Cursor, etc.)
+
+### Reference Repository
+Attendees use `github.com/emmanuelandre/unveiling-claude` as reference (NOT copy-paste).
+They build their OWN project from scratch.
+
+### Timeline
+
+| Part | Duration | Content | Hands-On |
+|------|----------|---------|----------|
+| Part 1 | 20 min | Philosophy & setup | No |
+| Part 2 | 30 min | Project setup | Exercises 1-3 |
+| Break 1 | 5 min | | |
+| Part 3 | 60 min | Build auth feature | Exercises 4-10 |
+| Break 2 | 10 min | | |
+| Part 4 | 25 min | Testing deep dive | Exercises 11-12 |
+| Part 5 | 20 min | Git & best practices | Exercises 13-14 |
+| Part 6 | 25 min | Final challenge | Exercise 15 |
+| Wrap-up | 5 min | Summary | No |
+
+### Key Exercises
+1. Create GitHub repository
+2. Create CLAUDE.md project rules
+3. Initialize Git workflow
+4. Write feature specification
+5. Create database schema
+6. Implement repository layer
+7. Create API handlers
+8. Write E2E tests
+9. Run and debug tests
+10. Add unit tests
+11. Create proper commits
+12. Push and create PR
+13. Final challenge (choose feature)
+
+---
+
+## Option 3: Original Interactive Workshop (2-3 hours)
+
+**Use:** `claude-code-interactive-tutorial.pdf` + `prompts.md`
+
+(See existing guide content below)
 
 ## How to Use During Workshop
 
@@ -115,14 +220,23 @@ Claude creates a comprehensive CLAUDE.md with architecture, commands, and conven
 If you need to update content:
 
 ```bash
-# Update the overview presentation
-python3 create_presentation.py
+# Activate virtual environment (required for reportlab)
+source .venv/bin/activate
 
-# Update the interactive workshop + prompts
-python3 create_interactive_presentation_v2.py
+# Generate 1-hour lecture
+.venv/bin/python3 create_lecture_presentation.py
+
+# Generate 3-hour workshop + prompts
+.venv/bin/python3 create_handson_workshop.py
+
+# Generate original interactive workshop + prompts
+.venv/bin/python3 create_interactive_presentation_v2.py
+
+# Generate overview presentation
+.venv/bin/python3 create_presentation.py
 ```
 
-Both commands generate PDFs. The v2 script also generates `prompts.md`.
+All scripts use `presentation_utils.py` for shared styling and functions.
 
 ## Using the Reference Example
 

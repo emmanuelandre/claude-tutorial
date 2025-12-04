@@ -38,10 +38,21 @@ claude-tutorial/
 ├── examples/
 │   └── claude-md-template.md       # Production-ready CLAUDE.md template
 │
-├── prompts.md                      # Workshop exercise prompts
+├── prompts.md                      # Original workshop exercise prompts
+├── workshop-prompts.md             # Hands-on workshop prompts (auto-generated)
 ├── WORKSHOP_GUIDE.md               # Instructor guide for workshops
-├── claude-code-interactive-tutorial.pdf   # Workshop slides
-└── create_*.py                     # Python scripts to generate presentations
+│
+├── # Presentation PDFs
+├── claude-code-interactive-tutorial.pdf   # Original interactive workshop (2-3 hours)
+├── ai-first-lecture.pdf            # 1-hour lecture (no hands-on)
+├── ai-first-workshop.pdf           # 3-hour hands-on workshop
+│
+├── # Python scripts to generate presentations
+├── presentation_utils.py           # Shared utilities for PDF generation
+├── create_presentation.py          # Generates overview PDF
+├── create_interactive_presentation_v2.py  # Generates interactive tutorial PDF
+├── create_lecture_presentation.py  # Generates 1-hour lecture PDF
+└── create_handson_workshop.py      # Generates 3-hour workshop PDF + prompts
 ```
 
 ## Key Concepts (Important for Editing)
@@ -122,10 +133,28 @@ The `examples/claude-md-template.md` is the **most important file** in this repo
 
 ### Workshop Materials
 
-The workshop materials work together as a system:
-- `claude-code-interactive-tutorial.pdf` - Main presentation slides
-- `prompts.md` - Copy-paste prompts for hands-on exercises (references slide numbers)
-- `WORKSHOP_GUIDE.md` - Instructor notes for running workshops
+The workshop materials work together as a system. There are three presentation options:
+
+**1. Original Interactive Workshop (2-3 hours)**
+- `claude-code-interactive-tutorial.pdf` - Interactive tutorial with hands-on exercises
+- `prompts.md` - Copy-paste prompts (references slide numbers)
+- Best for: Standard workshop sessions
+
+**2. Lecture Presentation (1 hour, no hands-on)**
+- `ai-first-lecture.pdf` - Comprehensive lecture covering all topics
+- No accompanying prompts file (lecture format)
+- Best for: Conference talks, team briefings, executive overviews
+- Topics: Philosophy, concerns, prompt engineering, testing, git, tips
+
+**3. Hands-On Workshop (3 hours)**
+- `ai-first-workshop.pdf` - Focused on building from scratch
+- `workshop-prompts.md` - Copy-paste prompts (auto-generated)
+- Reference repo: `github.com/emmanuelandre/unveiling-claude`
+- Best for: Full training sessions, bootcamps
+- Attendees build their own project using reference examples
+
+**Instructor Guide:**
+- `WORKSHOP_GUIDE.md` - Notes for running any workshop format
 
 **Workshop GitHub Repository Convention:**
 - All attendees create a private GitHub repository named: `unveiling-claude`
@@ -144,9 +173,22 @@ The workshop materials work together as a system:
 ### Python Presentation Scripts
 
 The `create_*.py` files generate presentation PDFs:
-- Not part of the tutorial content
-- Used to regenerate PDFs when updating slides
-- No need to maintain unless updating presentations
+
+| Script | Output | Purpose |
+|--------|--------|---------|
+| `presentation_utils.py` | (shared module) | Common utilities for all presentations |
+| `create_presentation.py` | `claude-code-tutorial.pdf` | Simple 17-slide overview |
+| `create_interactive_presentation_v2.py` | `claude-code-interactive-tutorial.pdf` | Original interactive workshop |
+| `create_lecture_presentation.py` | `ai-first-lecture.pdf` | 1-hour lecture (no hands-on) |
+| `create_handson_workshop.py` | `ai-first-workshop.pdf` + `workshop-prompts.md` | 3-hour hands-on workshop |
+
+**To regenerate presentations:**
+```bash
+.venv/bin/python3 create_lecture_presentation.py    # Lecture
+.venv/bin/python3 create_handson_workshop.py        # Workshop
+```
+
+**Dependencies:** `reportlab` (installed in `.venv`)
 
 ## Common Tasks
 
@@ -224,7 +266,10 @@ fix: correct code example in git workflow
 | `docs/06-testing-strategy.md` | E2E-first testing philosophy | Core methodology |
 | `docs/07-ai-first-workflow.md` | 10-step development process | Core methodology |
 | `docs/11-git-workflow.md` | Git conventions and best practices | Referenced by template |
-| `prompts.md` | Workshop exercise prompts | Used with PDF workshop |
+| `prompts.md` | Original workshop exercise prompts | Used with interactive tutorial PDF |
+| `workshop-prompts.md` | Hands-on workshop prompts | Auto-generated, used with 3-hour workshop |
+| `ai-first-lecture.pdf` | 1-hour lecture slides | No hands-on, conference/briefing format |
+| `ai-first-workshop.pdf` | 3-hour workshop slides | Hands-on, build from scratch format |
 
 ## Important Notes
 
@@ -254,7 +299,7 @@ When making changes, preserve these core principles taught in this tutorial:
 
 ---
 
-**Last Updated**: 2025-11-16
+**Last Updated**: 2025-12-04
 **Repository Type**: Educational Documentation
 **Primary Audience**: Software developers learning AI-first development with Claude Code
 - always update /docs, the pdf slides and the prompts.md
