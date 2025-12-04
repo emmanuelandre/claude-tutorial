@@ -5,7 +5,8 @@
 | Presentation | Duration | Format | Use Case |
 |--------------|----------|--------|----------|
 | `ai-first-lecture.pdf` | 1 hour | Lecture (no hands-on) | Conference talks, team briefings |
-| `ai-first-workshop.pdf` | 3 hours | Hands-on | Training sessions, bootcamps |
+| `ai-first-workshop.pdf` | 3 hours | Guided hands-on | Training sessions, bootcamps |
+| `ai-first-openended-workshop.pdf` | 3 hours | Open-ended hands-on | Hackathons, experienced devs |
 | `claude-code-interactive-tutorial.pdf` | 2-3 hours | Interactive | Standard workshops |
 | `claude-code-tutorial.pdf` | 30 min | Overview | Quick introductions |
 
@@ -13,8 +14,10 @@
 
 ### Presentation Files
 - **`ai-first-lecture.pdf`** - 1-hour lecture covering all AI-first topics (NO hands-on)
-- **`ai-first-workshop.pdf`** - 3-hour workshop where attendees build from scratch
-- **`workshop-prompts.md`** - Prompts for the 3-hour workshop (auto-generated)
+- **`ai-first-workshop.pdf`** - 3-hour guided workshop (everyone builds same feature)
+- **`workshop-prompts.md`** - Prompts for the guided workshop (auto-generated)
+- **`ai-first-openended-workshop.pdf`** - 3-hour open-ended workshop (choose your project)
+- **`openended-workshop-prompts.md`** - Prompts for open-ended workshop (auto-generated)
 - **`claude-code-interactive-tutorial.pdf`** - Original 40+ slide interactive workshop
 - **`prompts.md`** - Original workshop prompts with page references
 - **`claude-code-tutorial.pdf`** - 17-slide overview presentation (short talks)
@@ -22,7 +25,8 @@
 ### Python Scripts
 - **`presentation_utils.py`** - Shared utilities for PDF generation
 - **`create_lecture_presentation.py`** - Generates the 1-hour lecture PDF
-- **`create_handson_workshop.py`** - Generates the 3-hour workshop PDF + workshop-prompts.md
+- **`create_handson_workshop.py`** - Generates the 3-hour guided workshop PDF
+- **`create_openended_workshop.py`** - Generates the 3-hour open-ended workshop PDF
 - **`create_interactive_presentation_v2.py`** - Generates the interactive workshop PDF + prompts.md
 - **`create_presentation.py`** - Generates the 17-slide overview PDF
 
@@ -110,7 +114,85 @@ They build their OWN project from scratch.
 
 ---
 
-## Option 3: Original Interactive Workshop (2-3 hours)
+## Option 3: 3-Hour Open-Ended Workshop
+
+**Use:** `ai-first-openended-workshop.pdf` + `openended-workshop-prompts.md`
+
+### When to Use
+- Hackathons
+- Experienced developers
+- Teams who want to explore their own ideas
+- Groups comfortable with self-directed learning
+
+### Prerequisites for Attendees
+- Laptop with internet
+- Claude Code access (or other AI coding assistant)
+- Git installed
+- GitHub account
+- Preferred language runtime (Go, Node, Python, TypeScript)
+- Code editor (VS Code, Cursor, etc.)
+
+### Sample Projects Available
+
+Attendees can choose from `github.com/emmanuelandre/unveiling-claude`:
+
+| Project | Description | Complexity |
+|---------|-------------|------------|
+| **manu-code** | AI-powered CLI code assistant | High |
+| **task-manager** | Task management system with API | Medium |
+| **my-api-project** | Simple API project starter | Low |
+| **prompt-ops** | Prompt operations tooling | Medium |
+| **ui-to-test** | UI testing project | Medium |
+
+Or attendees can propose their **own project idea**.
+
+### Timeline
+
+| Part | Duration | Content | Hands-On |
+|------|----------|---------|----------|
+| Part 1 | 10 min | AI-First philosophy recap | No |
+| Part 1 | 15 min | Sample projects overview | No |
+| Part 1 | 15 min | Project selection | Exercise 1 |
+| Part 1 | 5 min | Setup (fork/create repo) | Exercise 2 |
+| Part 2 | 20 min | Planning phase | Exercise 3 |
+| Part 2 | 35 min | Implementation sprint 1 | Exercise 4 |
+| Break | 10 min | | |
+| Part 2 | 25 min | Implementation sprint 2 | Exercise 5 |
+| Part 3 | 15 min | Git workflow | Exercise 6 |
+| Part 3 | 20 min | Show & Tell demos | No |
+| Part 3 | 10 min | Wrap-up | No |
+
+### Key Exercises
+1. Browse & choose your project
+2. Initial setup (fork or create repo)
+3. Create your plan with AI (CLAUDE.md + spec)
+4. Implementation sprint 1 (core feature)
+5. Implementation sprint 2 (continue + polish)
+6. Commit and push / create PR
+
+### Key Difference from Guided Workshop
+
+In the **guided workshop** (Option 2):
+- Everyone builds the same authentication feature
+- Step-by-step instructions for each part
+- Instructor demonstrates, then attendees follow
+
+In the **open-ended workshop** (Option 3):
+- Everyone chooses their own project
+- Minimal guidance after project selection
+- Attendees work independently with their AI assistant
+- Focus on learning through exploration
+
+### Instructor Tips for Open-Ended Format
+
+1. **During project selection** - Walk around and help attendees decide
+2. **During sprints** - Be available for questions but don't guide too much
+3. **Encourage experimentation** - Different approaches are expected
+4. **Show & Tell is key** - Let attendees share what they learned
+
+---
+
+## Option 4: Original Interactive Workshop (2-3 hours)
 
 **Use:** `claude-code-interactive-tutorial.pdf` + `prompts.md`
 
@@ -226,8 +308,11 @@ source .venv/bin/activate
 # Generate 1-hour lecture
 .venv/bin/python3 create_lecture_presentation.py
 
-# Generate 3-hour workshop + prompts
+# Generate 3-hour guided workshop + prompts
 .venv/bin/python3 create_handson_workshop.py
+
+# Generate 3-hour open-ended workshop + prompts
+.venv/bin/python3 create_openended_workshop.py
 
 # Generate original interactive workshop + prompts
 .venv/bin/python3 create_interactive_presentation_v2.py

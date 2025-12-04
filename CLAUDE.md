@@ -45,14 +45,17 @@ claude-tutorial/
 ├── # Presentation PDFs
 ├── claude-code-interactive-tutorial.pdf   # Original interactive workshop (2-3 hours)
 ├── ai-first-lecture.pdf            # 1-hour lecture (no hands-on)
-├── ai-first-workshop.pdf           # 3-hour hands-on workshop
+├── ai-first-workshop.pdf           # 3-hour hands-on workshop (guided)
+├── ai-first-openended-workshop.pdf # 3-hour open-ended workshop (choose your project)
+├── openended-workshop-prompts.md   # Prompts for open-ended workshop
 │
 ├── # Python scripts to generate presentations
 ├── presentation_utils.py           # Shared utilities for PDF generation
 ├── create_presentation.py          # Generates overview PDF
 ├── create_interactive_presentation_v2.py  # Generates interactive tutorial PDF
 ├── create_lecture_presentation.py  # Generates 1-hour lecture PDF
-└── create_handson_workshop.py      # Generates 3-hour workshop PDF + prompts
+├── create_handson_workshop.py      # Generates 3-hour guided workshop PDF
+└── create_openended_workshop.py    # Generates 3-hour open-ended workshop PDF
 ```
 
 ## Key Concepts (Important for Editing)
@@ -146,12 +149,19 @@ The workshop materials work together as a system. There are three presentation o
 - Best for: Conference talks, team briefings, executive overviews
 - Topics: Philosophy, concerns, prompt engineering, testing, git, tips
 
-**3. Hands-On Workshop (3 hours)**
-- `ai-first-workshop.pdf` - Focused on building from scratch
+**3. Guided Hands-On Workshop (3 hours)**
+- `ai-first-workshop.pdf` - Guided workshop building auth feature
 - `workshop-prompts.md` - Copy-paste prompts (auto-generated)
+- Best for: Full training sessions with structured exercises
+- Attendees follow step-by-step exercises
+
+**4. Open-Ended Workshop (3 hours)**
+- `ai-first-openended-workshop.pdf` - Choose your own project
+- `openended-workshop-prompts.md` - Prompts for open-ended format
 - Reference repo: `github.com/emmanuelandre/unveiling-claude`
-- Best for: Full training sessions, bootcamps
-- Attendees build their own project using reference examples
+- Best for: Experienced developers, hackathon-style sessions
+- Attendees choose from sample specs or bring their own idea
+- Minimal guidance after project selection - independent work with AI
 
 **Instructor Guide:**
 - `WORKSHOP_GUIDE.md` - Notes for running any workshop format
