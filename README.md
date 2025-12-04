@@ -22,6 +22,13 @@ A comprehensive guide to working effectively with Claude Code (claude.ai/code) f
 
 ### Best Practices
 - [Git Workflow](./docs/11-git-workflow.md) - Branch naming, commits, and PR management
+- [Documentation Organization](./docs/12-documentation-organization.md) - Structure for plans, architecture, specs, and rules
+- [Documentation Writing](./docs/13-documentation-writing.md) - API docs, code comments, and ADRs
+- [Code Review](./docs/14-code-review.md) - Reviewing AI-generated code effectively
+- [Security Practices](./docs/15-security.md) - Authentication, validation, and secrets management
+- [Performance Optimization](./docs/16-performance.md) - Database, API, and frontend performance
+- [CI/CD and Deployment](./docs/17-ci-cd.md) - GitHub Actions and deployment pipelines
+- [Advanced Topics](./docs/18-advanced-topics.md) - MCP servers, multi-repo, and legacy code
 
 ### Reference
 - [Troubleshooting](./docs/19-troubleshooting.md) - Common issues and solutions
@@ -30,6 +37,7 @@ A comprehensive guide to working effectively with Claude Code (claude.ai/code) f
 
 ### Examples
 - [CLAUDE.md Template](./examples/claude-md-template.md) - Production-ready project configuration
+- [my-api-project](./examples/my-api-project/) - Workshop reference example (Go API with PostgreSQL)
 
 ### Workshop Materials
 - [Interactive Tutorial Slides](./claude-code-interactive-tutorial.pdf) - 40+ slide hands-on workshop

@@ -698,4 +698,4 @@ gh pr create --title "feat: Add password reset functionality" \
 
 ---
 
-**Prev:** [AI-First Workflow](./07-ai-first-workflow.md) | **Next:** [Real-World Examples](./09-real-world-examples.md)
+**Prev:** [AI-First Workflow](./07-ai-first-workflow.md) | **Next:** [Project Planning & Documentation Structure](./09-project-planning-structure.md)

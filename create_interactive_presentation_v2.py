@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Generate comprehensive interactive Claude Code tutorial presentation
+Generate comprehensive interactive AI-First Development tutorial presentation
+Supports Claude Code and Windsurf IDE
 All examples use React (frontend) and Go (backend)
 Properly formatted prompts with line breaks
 """
@@ -61,16 +62,16 @@ def create_title_slide(story, styles):
     """Title slide"""
     story.append(Spacer(1, 1.5*inch))
 
-    title = Paragraph('<font color="#003E7E" size="48"><b>Claude Code</b></font>', styles['Title'])
+    title = Paragraph('<font color="#003E7E" size="48"><b>AI-First Development</b></font>', styles['Title'])
     story.append(title)
     story.append(Spacer(1, 0.2*inch))
 
-    subtitle = Paragraph('<font color="#0076CE" size="32">Interactive Tutorial & Workshop</font>', styles['Title'])
+    subtitle = Paragraph('<font color="#0076CE" size="28">Interactive Tutorial &amp; Workshop</font>', styles['Title'])
     story.append(subtitle)
-    story.append(Spacer(1, 0.3*inch))
+    story.append(Spacer(1, 0.2*inch))
 
-    desc = Paragraph('<font color="#5B5B5B" size="16">AI-First Development for Modern Software Teams</font>', styles['Title'])
-    story.append(desc)
+    tools = Paragraph('<font color="#5B5B5B" size="14">Using Claude Code, Windsurf, and AI Coding Assistants</font>', styles['Title'])
+    story.append(tools)
 
     story.append(PageBreak())
 
@@ -209,7 +210,68 @@ def export_prompts_to_markdown():
             f.write('\n```\n\n')
             f.write(f'**EXPECTED RESULT:**\n')
             f.write(f'{item["expected"]}\n\n')
+
+            # Add reference examples for specific pages
+            if item["page"] == 9:
+                f.write('\n**REFERENCE EXAMPLE:**\n')
+                f.write('Compare your generated CLAUDE.md with `examples/my-api-project/CLAUDE.md` to see a production-ready example.\n\n')
+            elif item["page"] == 15:
+                f.write('\n**REFERENCE EXAMPLE:**\n')
+                f.write('See `examples/my-api-project/migrations/001_create_users.up.sql` for a complete migration including:\n')
+                f.write('- Proper index on email column\n')
+                f.write('- Automatic updated_at trigger\n')
+                f.write('- Both up.sql and down.sql files\n\n')
+
             f.write('---\n\n')
+
+        # Add new documentation organization exercises at the end
+        f.write('## NEW: Documentation Organization Exercise\n\n')
+        f.write('**PROMPT:**\n```\n')
+        f.write('''I'm starting a new project. Help me decide on documentation structure.
+
+Project details:
+- Solo developer
+- 3-month project
+- Single Go API service
+- ~40 tasks estimated
+
+Based on these factors, should I use:
+A) Simple flat structure (plan.md, architecture.md at root)
+B) Nested structure (project/planning/, project/specs/)
+
+Create the appropriate documentation files for my choice.
+Include:
+- plan.md or devplan.md with milestones
+- architecture.md with system design
+- requirements.md with key features
+''')
+        f.write('```\n\n')
+        f.write('**EXPECTED RESULT:**\n')
+        f.write('Claude recommends nested structure (40 tasks, 3 months) and creates starter files\n\n')
+        f.write('**REFERENCE:**\n')
+        f.write('See [docs/12-documentation-organization.md](docs/12-documentation-organization.md) for decision criteria and templates.\n\n')
+        f.write('---\n\n')
+
+        f.write('## NEW: Migrate Flat to Nested Structure\n\n')
+        f.write('**PROMPT:**\n```\n')
+        f.write('''My project has grown. I started with simple flat docs:
+- plan.md
+- architecture.md
+- requirements.md
+
+Now I have 50+ tasks across 5 features. Help me migrate to
+the nested structure:
+- Move plan.md content to project/planning/devplan.md
+- Create project/planning/devprogress.md for tracking
+- Split requirements into project/specs/ by feature
+- Keep architecture.md updated
+
+Preserve all existing content during migration.
+''')
+        f.write('```\n\n')
+        f.write('**EXPECTED RESULT:**\n')
+        f.write('Documentation migrated to nested structure with content preserved\n\n')
+        f.write('---\n\n')
 
 def create_presentation():
     """Generate the complete interactive presentation"""
@@ -233,6 +295,8 @@ def create_presentation():
     # AGENDA
     create_content_slide(story, styles, "Workshop Agenda", [
         "Part 1: Philosophy & Foundation",
+        "Addressing Common Concerns about AI-First Development",
+        "Prompt Engineering vs Vibe Coding",
         "Part 2: Getting Started Hands-On",
         "Part 3: Core Workflow (Interactive)",
         "Part 4: Testing Strategy (Live Demo)",
@@ -280,16 +344,211 @@ def create_presentation():
 
     create_content_slide(story, styles, "Testing Philosophy", [
         "E2E tests are MANDATORY (API + UI user journeys)",
-        "Unit tests are MANDATORY (business logic, utilities, edge cases)",
-        "Component tests are GOOD TO HAVE (test containers for microservices)",
+        "Unit tests are MANDATORY (business logic, edge cases)",
+        "Component tests are GOOD TO HAVE (microservices)",
         ("Test-First Approach:", [
             "Define coverage targets before implementation",
-            "Build testing infrastructure/framework first",
-            "Track coverage from unit, component, and E2E tests",
-            "Coverage thresholds vary by project (higher is better)",
+            "Build testing infrastructure first",
             "Tests are your regression safety net"
+        ])
+    ])
+    page_num += 1
+
+    # =================
+    # ADDRESSING COMMON CONCERNS
+    # =================
+    create_section_slide(story, styles, "Addressing Common Concerns")
+    page_num += 1
+
+    create_content_slide(story, styles, "Common Concerns About AI-First Development", [
+        "1. Code Quality & Reliability - Hallucinations, hidden bugs",
+        "2. Security Risks - Insecure patterns, data leakage",
+        "3. Maintainability & Technical Debt - Opaque code, inconsistent style",
+        "4. Design Integrity - Architecture drift, loss of intent",
+        "5. Testing & Validation - False sense of coverage",
+        "6. IP & Compliance - License ambiguity, auditability",
+        "7. Developer Experience - Skill atrophy, workflow disruption",
+        "8. Accountability - Who owns AI-generated bugs?"
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #1: Code Quality & Reliability", [
+        ("The Concern:", [
+            "AI generates syntactically correct but logically flawed code",
+            "Hidden bugs pass tests but fail in edge cases",
+            "Engineers might trust AI output without validation"
         ]),
-        "Measure coverage to ensure quality and confidence"
+        ("How We Address It:", [
+            "Human validates 100% - Every line is reviewed",
+            "Mandatory E2E tests catch integration issues",
+            "Pre-commit checks enforce quality gates",
+            "Three-layer review: Self → Automated → Peer"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #2: Security Risks", [
+        ("The Concern:", [
+            "AI might introduce vulnerabilities",
+            "Proprietary code exposed to AI tools"
+        ]),
+        ("How We Address It:", [
+            "Security checklist in code review",
+            "Automated security scanning in CI",
+            "Explicit prompts for secure patterns"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "How Your Data is Handled", [
+        ("Your code stays on your machine:", [
+            "AI assistants run locally",
+            "Files are read/written locally"
+        ]),
+        ("When you ask for help:", [
+            "Relevant code sent to AI API as context",
+            "Processed but NOT stored on AI servers",
+            "Similar to pasting code in chat"
+        ]),
+        ("Different from cloud IDEs:", [
+            "Cloud IDEs store your code remotely",
+            "AI assistants only send context when asked"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #3: Maintainability & Technical Debt", [
+        ("The Concern:", [
+            "AI-generated code hard to understand/maintain",
+            "Suggestions may not follow team conventions"
+        ]),
+        ("How We Address It:", [
+            "Project rules (CLAUDE.md / Windsurf Rules) define conventions",
+            "Consistent patterns across codebase",
+            "Human review catches non-idiomatic code"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #4: Design Integrity", [
+        ("The Concern:", [
+            "AI optimizes locally, not holistically",
+            "May ignore design principles (SOLID)"
+        ]),
+        ("How We Address It:", [
+            "Architecture in project rules (CLAUDE.md / Windsurf Rules)",
+            "Human writes specs BEFORE AI implements",
+            "Design decisions in ADRs",
+            "AI follows existing patterns"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concern #5: Testing & Validation", [
+        ("The Concern:", [
+            "AI generates tests that don't cover real scenarios",
+            "Non-deterministic outputs hard to debug",
+            "AI-generated modules may not integrate well"
+        ]),
+        ("How We Address It:", [
+            "Test-first approach - define tests before implementation",
+            "E2E tests validate complete user journeys",
+            "Human verifies test quality, not just coverage",
+            "Integration testing mandatory in CI"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Concerns #6-8: IP, Experience & Accountability", [
+        ("IP & Compliance:", [
+            "Review AI suggestions for license issues",
+            "Keep audit trail of AI-generated code in commits"
+        ]),
+        ("Developer Experience:", [
+            "AI executes, Human validates - skills remain sharp",
+            "Review process maintains deep code understanding",
+            "Pair programming with AI, not replacement"
+        ]),
+        ("Accountability:", [
+            "Human approves every PR - human owns the code",
+            "Clear handoffs document who validated what",
+            "Git history shows human review at each step"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "The Bottom Line", [
+        "AI-First ≠ AI-Only",
+        ("The methodology addresses concerns through:", [
+            "Systematic validation at every step",
+            "Comprehensive testing (E2E + Unit)",
+            "Clear human ownership and accountability",
+            "Documented conventions in project rules"
+        ]),
+        "Result: Faster development WITH maintained quality"
+    ])
+    page_num += 1
+
+    # =================
+    # PROMPT ENGINEERING VS VIBE CODING
+    # =================
+    create_section_slide(story, styles, "Prompt Engineering vs Vibe Coding")
+    page_num += 1
+
+    create_content_slide(story, styles, "What is Vibe Coding?", [
+        "Informal, exploratory approach with minimal instructions",
+        ("Characteristics:", [
+            "Speed over precision",
+            "AI 'guesses' intent",
+            "Minimal context"
+        ]),
+        "Example: 'Make something that sorts numbers'",
+        ("Result:", [
+            "Quick for prototypes",
+            "Unpredictable code quality"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "What is Prompt Engineering?", [
+        "Precise, structured inputs to guide AI behavior",
+        ("Characteristics:", [
+            "Context and constraints provided",
+            "Clear success criteria"
+        ]),
+        "Example: 'Write Python function to sort integers ascending, no built-in sort'",
+        ("Result:", [
+            "Predictable, production code",
+            "Consistent with standards"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "Side-by-Side Comparison", [
+        ("Speed:", [
+            "Vibe: Fast initial results",
+            "Prompt: Less rework overall"
+        ]),
+        ("Quality:", [
+            "Vibe: Unpredictable",
+            "Prompt: Consistent"
+        ]),
+        ("Best For:", [
+            "Vibe: Prototypes",
+            "Prompt: Production code"
+        ])
+    ])
+    page_num += 1
+
+    create_content_slide(story, styles, "This Workshop Uses Prompt Engineering", [
+        "Structured, production-quality prompting",
+        ("The AI-First workflow:", [
+            "Human writes specification",
+            "AI executes within boundaries",
+            "Human validates output"
+        ]),
+        "Flow: Spec → Schema → Code → Tests",
+        "Result: Code you can ship to production"
     ])
     page_num += 1
 
@@ -832,30 +1091,28 @@ Practice: Write a detailed prompt for adding pagination.""",
     page_num += 1
 
     create_content_slide(story, styles, "Keys to Success", [
-        ("1. CLAUDE.md is essential", [
-            "Keep it current and comprehensive",
-            "Document all conventions and patterns"
+        ("1. Project rules are essential", [
+            "CLAUDE.md / Windsurf Rules - keep current",
+            "Document conventions and patterns"
         ]),
         ("2. Clear handoffs between AI and human", [
-            "AI completes a step fully before handoff",
+            "AI completes step fully before handoff",
             "Human approves or requests changes"
         ]),
-        ("3. Systematic quality gates", [
-            "Tests must pass before proceeding",
-            "Reviews must approve before merging"
+        ("3. Quality gates", [
+            "Tests pass before proceeding",
+            "Reviews approve before merging"
         ])
     ])
     page_num += 1
 
     create_content_slide(story, styles, "Common Mistakes to Avoid", [
-        "❌ Vague prompts → Be specific with examples",
-        "❌ Skipping tests → Always write E2E tests first",
-        "❌ Committing untested code → Run checks locally",
-        "❌ Ignoring CLAUDE.md → Keep it updated",
-        "❌ Large unfocused PRs → Make small, atomic changes",
-        "✅ Review all AI output before committing",
-        "✅ Use conventional commits",
-        "✅ Run pre-commit checks"
+        "❌ Vague prompts → Be specific",
+        "❌ Skipping tests → Write E2E tests first",
+        "❌ Untested commits → Run checks locally",
+        "❌ Ignoring project rules → Keep them updated",
+        "❌ Large PRs → Make atomic changes",
+        "✅ Review AI output before committing"
     ])
     page_num += 1
 
@@ -893,15 +1150,13 @@ Time limit: 30 minutes""",
 
     create_content_slide(story, styles, "The Challenge of Large Projects", [
         ("When projects grow:", [
-            "100+ tasks across multiple modules",
-            "Complex dependencies between features",
-            "Weeks or months of development",
-            "Context loss between sessions",
-            "Need systematic progress tracking"
+            "100+ tasks across modules",
+            "Complex dependencies",
+            "Context loss between sessions"
         ]),
         ("The Solution:", [
-            "Phased development with living documentation",
-            "Centralized project planning structure",
+            "Phased development",
+            "Centralized planning structure",
             "Continuous progress monitoring"
         ])
     ])
@@ -910,47 +1165,40 @@ Time limit: 30 minutes""",
     create_content_slide(story, styles, "Project Planning Structure", [
         ("Directory Layout:", [
             "project/planning/ - Master plan and progress",
-            "project/specs/ - Detailed feature specifications",
-            "project/sessions/ - Session summaries",
-            "project/development/ - Quick reference guides"
+            "project/specs/ - Feature specifications",
+            "project/sessions/ - Session summaries"
         ]),
         ("Key Files:", [
-            "devplan.md - Master plan with all phases",
-            "devprogress.md - Living progress tracker",
-            "database.md - Complete schema documentation",
-            "Session notes - What happened each session"
+            "devplan.md - Master plan with phases",
+            "devprogress.md - Progress tracker",
+            "database.md - Schema documentation"
         ])
     ])
     page_num += 1
 
     create_content_slide(story, styles, "The Master Plan (devplan.md)", [
         ("Contains:", [
-            "10 phases with clear objectives",
-            "Dependency mapping (what depends on what)",
-            "Vertical slice workflow per feature",
-            "All tasks with checkboxes",
-            "Estimated timelines"
+            "Phases with clear objectives",
+            "Dependency mapping",
+            "Tasks with checkboxes"
         ]),
         ("Workflow per Feature:", [
-            "DB → Backend API → API Tests → UI → UI Tests → Docs",
-            "Complete each layer before moving forward",
-            "Never skip the testing phases"
+            "DB → API → Tests → UI → UI Tests",
+            "Complete each layer before moving",
+            "Never skip testing"
         ])
     ])
     page_num += 1
 
     create_content_slide(story, styles, "Progress Tracker (devprogress.md)", [
         ("Update After Every Session:", [
-            "Mark completed tasks with [x]",
+            "Mark completed tasks [x]",
             "Update phase percentages",
-            "Track current sprint goals",
-            "Document blockers and decisions",
-            "Calculate overall progress"
+            "Document blockers"
         ]),
         ("Quick Stats Table:", [
-            "Phase | Status | Progress | Backend | UI | Tests",
-            "🔴 Not Started | 🟡 In Progress | 🟢 Complete",
-            "Visual overview of project health"
+            "Phase | Status | Progress",
+            "🔴 Not Started | 🟡 In Progress | 🟢 Complete"
         ])
     ])
     page_num += 1
@@ -1105,38 +1353,30 @@ Expected: Progress shows ~60-70% Phase 0 complete""",
 
     create_content_slide(story, styles, "Best Practices for Large Projects", [
         ("Update Progress Religiously:", [
-            "After every session - mark completed tasks",
-            "Calculate percentages accurately",
-            "Document blockers immediately",
-            "Create session notes with decisions"
+            "Mark tasks after every session",
+            "Document blockers immediately"
         ]),
         ("Keep Plans vs Reality Aligned:", [
-            "devplan.md = original blueprint (stable)",
-            "devprogress.md = current reality (dynamic)",
-            "Adjust plan when reality diverges significantly"
+            "devplan.md = blueprint (stable)",
+            "devprogress.md = reality (dynamic)"
         ]),
         ("Use Phase-Based Branches:", [
-            "phase-0-foundation, phase-1-projects, etc.",
-            "Complete entire phase before merging",
-            "Easier to track and review large changes"
+            "phase-0-foundation, phase-1-projects",
+            "Complete phase before merging"
         ])
     ])
     page_num += 1
 
     create_content_slide(story, styles, "When to Use This Approach", [
         ("Small Projects (<20 tasks):", [
-            "❌ Don't need planning structure",
-            "✅ Simple CLAUDE.md is enough"
+            "Simple project rules file is enough"
         ]),
         ("Medium Projects (20-50 tasks):", [
-            "✅ Create devplan.md and devprogress.md",
-            "✅ Update progress after sessions"
+            "Create devplan.md and devprogress.md"
         ]),
         ("Large Projects (50+ tasks):", [
-            "✅ Full planning structure",
-            "✅ Daily progress updates",
-            "✅ Session notes after every session",
-            "✅ Detailed specs for complex features"
+            "Full planning structure",
+            "Session notes after every session"
         ])
     ])
     page_num += 1
@@ -1148,28 +1388,25 @@ Expected: Progress shows ~60-70% Phase 0 complete""",
     page_num += 1
 
     create_content_slide(story, styles, "What We Learned", [
-        "✓ AI-First philosophy: AI executes, Human validates",
+        "✓ AI-First: AI executes, Human validates",
         "✓ 10-step systematic development process",
         "✓ E2E tests as primary testing strategy",
-        "✓ Proper git workflow and conventional commits",
-        "✓ Effective prompt engineering techniques",
-        "✓ CLAUDE.md as project instruction manual",
-        "✓ Scaling to large projects with phased planning",
-        "✓ Progress tracking with devplan.md and devprogress.md",
-        "✓ Quality gates at every step"
+        "✓ Git workflow and conventional commits",
+        "✓ Prompt engineering techniques",
+        "✓ Project rules (CLAUDE.md / Windsurf Rules)",
+        "✓ Phased planning for large projects"
     ])
     page_num += 1
 
     create_content_slide(story, styles, "Your Action Plan", [
         ("Next Steps:", [
-            "1. Create CLAUDE.md for your project",
-            "2. Set up git workflow (branches, conventional commits)",
+            "1. Create project rules file (CLAUDE.md / Windsurf Rules)",
+            "2. Set up git workflow",
             "3. Start with one feature using 10-step process",
-            "4. Write E2E tests for everything",
-            "5. Review and iterate"
+            "4. Write E2E tests for everything"
         ]),
         ("Resources:", [
-            "Claude Code: claude.ai/code",
+            "AI Assistants: Claude Code, Windsurf",
             "Prompts: See prompts.md file"
         ])
     ])
